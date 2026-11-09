@@ -276,14 +276,14 @@
       "altName": "Cozy Pixel Mahjong",
       "folder": "H:\\Html AI\\Маджонг",
       "group": "Ранее",
-      "version": "1.0.2",
-      "note": "1.0.2: звук только из файлов (3.3.2 исправлен); Bridge всё ещё 2.3.1",
+      "version": "1.0.3",
+      "note": "1.0.3: исправлен раздел 16 (таймеры рекламы, Bridge 2.4.1, классы, пауза); открыто: название не выводится в игре (3.5.1), rewarded виден только при пустом бустере",
       "updatedAt": "2026-11-09",
       "platforms": {
         "playgama": {
           "status": "draft",
           "version": "1.0.1",
-          "note": "песочница playgama.ai/play/o45vcq2xwz6n35; 1.0.2 не загружена"
+          "note": "песочница 1.0.1; 1.0.3 загружает владелец, QA Tool не пройден"
         },
         "rustore": {
           "note": "Unity-порт в работе (H:\\Unity\\Cozy Pixel Mahjong)",
