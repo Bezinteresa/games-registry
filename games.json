@@ -24,6 +24,10 @@
     {
       "id": "site",
       "name": "Свой сайт"
+    },
+    {
+      "id": "steam",
+      "name": "Steam"
     }
   ],
   "groups": [
@@ -45,7 +49,7 @@
       "folder": "H:\\Unity\\ShooterOfflineOnline",
       "group": "В разработке",
       "version": "",
-      "note": "VR-шутер (PICO) + ПК + мобильные, сервер Colyseus; выпущенной версии нет",
+      "note": "VR-шутер (PICO) + ПК; основной релиз — Steam, позже возможно Android и веб; выпущенной версии нет",
       "updatedAt": "2026-11-09",
       "platforms": {}
     },
