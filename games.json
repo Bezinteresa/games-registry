@@ -507,10 +507,21 @@
       "altName": "Endless Bastion",
       "folder": "H:\\Html AI\\2 неделя\\2 защита замка",
       "group": "Неделя 2",
-      "version": "0.1.0",
-      "note": "адаптация Legend of Defenders (idle-оборона замка); название рабочее; готов этап 1 (каркас)",
+      "version": "0.5.0",
+      "note": "Этапы 1–7 собраны, графика заглушками (art/ART_TODO.md, 17 шт.), обложки временные; архив release/endless-bastion-0.5.0.zip (6,7 МБ, Bridge 2.4.1)",
       "updatedAt": "2026-11-09",
-      "platforms": {}
+      "platforms": {
+        "playgama": {
+          "status": "none",
+          "version": "",
+          "note": "0.5.0 ждёт загрузки владельцем"
+        },
+        "yandex": {
+          "status": "none",
+          "version": "",
+          "note": ""
+        }
+      }
     }
   ]
 }
