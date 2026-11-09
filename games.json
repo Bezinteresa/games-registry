@@ -26,6 +26,17 @@
       "name": "Свой сайт"
     }
   ],
+  "groups": [
+    {
+      "name": "Неделя 2"
+    },
+    {
+      "name": "В разработке"
+    },
+    {
+      "name": "Ранее"
+    }
+  ],
   "games": [
     {
       "id": "after-the-siren",
@@ -253,14 +264,14 @@
       "altName": "Cozy Pixel Mahjong",
       "folder": "H:\\Html AI\\Маджонг",
       "group": "Ранее",
-      "version": "1.0.1",
-      "note": "синтез звука и Bridge 2.3.1 — исправить до сертификации (16.7)",
+      "version": "1.0.2",
+      "note": "1.0.2: звук только из файлов (3.3.2 исправлен); Bridge всё ещё 2.3.1",
       "updatedAt": "2026-11-09",
       "platforms": {
         "playgama": {
-          "note": "песочница playgama.ai/play/o45vcq2xwz6n35; в каталог не отправлялась",
           "status": "draft",
-          "version": "1.0.1"
+          "version": "1.0.1",
+          "note": "песочница playgama.ai/play/o45vcq2xwz6n35; 1.0.2 не загружена"
         },
         "rustore": {
           "note": "Unity-порт в работе (H:\\Unity\\Cozy Pixel Mahjong)",
@@ -462,6 +473,17 @@
       "group": "Неделя 2",
       "version": "0.3.1",
       "note": "0.3.1 (09.11.2026): ритм-битва медленнее, нот больше, 25 с. В 0.3.0: танец на главном, подиум с оценкой участниц, ритм-битва. Нигде не выложена",
+      "updatedAt": "2026-11-09",
+      "platforms": {}
+    },
+    {
+      "id": "beskonechnyy-bastion",
+      "name": "Бесконечный бастион",
+      "altName": "Endless Bastion",
+      "folder": "H:\\Html AI\\2 неделя\\2 защита замка",
+      "group": "Неделя 2",
+      "version": "0.1.0",
+      "note": "адаптация Legend of Defenders (idle-оборона замка); название рабочее; готов этап 1 (каркас)",
       "updatedAt": "2026-11-09",
       "platforms": {}
     }

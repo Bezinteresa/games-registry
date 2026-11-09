@@ -92,6 +92,43 @@ body.detail-open .detail{display:grid;gap:10px}
   .search{width:100%}
 }
 @media (prefers-reduced-motion:reduce){.gtoggle svg{transition:none}}
+/* режим правки */
+button.btn,select,textarea{font:inherit;color:inherit}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 12px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--surface);border-color:var(--accent);font-weight:600}
+.btn.danger{color:var(--rej);border-color:var(--rej)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn:focus-visible,.panel input:focus-visible,.panel select:focus-visible,.panel textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.edit-only{display:none}
+body.can-edit .edit-only{display:inline-flex}
+body.can-edit .cell,body.can-edit .prow,body.can-edit .gname{cursor:pointer}
+body.can-edit .cell:hover .pill,body.can-edit .prow:hover{outline:1px solid var(--accent);outline-offset:1px}
+body.can-edit .gname:hover{color:var(--accent)}
+.panel{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--surface);border-left:1px solid var(--line);
+  box-shadow:-12px 0 32px rgb(0 0 0 / .18);padding:20px;padding-right:max(20px,env(safe-area-inset-right,0px));padding-top:max(20px,env(safe-area-inset-top,0px));
+  overflow-y:auto;z-index:20;display:grid;gap:14px;align-content:start}
+.panel h2{font-family:var(--f-display);font-size:18px;margin:0}
+.panel .row{display:grid;gap:6px}
+.panel label,.panel .lbl{font-size:13px;color:var(--muted);font-weight:500}
+.panel input:not([type=radio]):not([type=checkbox]),.panel select,.panel textarea{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:8px 10px;width:100%}
+.panel textarea{min-height:72px;resize:vertical}
+.choices{display:flex;flex-wrap:wrap;gap:6px}
+.choices input{position:absolute;opacity:0;pointer-events:none}
+.choices label{cursor:pointer;color:var(--fg)}
+.choices input:checked + .pill{outline:2px solid var(--accent);outline-offset:1px}
+.choices input:focus-visible + .pill{outline:2px solid var(--accent)}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.confirm{border:1px solid var(--rej);border-radius:8px;padding:10px;display:grid;gap:8px;background:var(--rej-bg)}
+.grow{display:grid;gap:6px;border:1px solid var(--line);border-radius:10px;padding:8px}
+.grow .gbtns{display:flex;gap:4px;flex-wrap:wrap}
+.grow .btn{padding:4px 8px;font-size:13px}
+.check{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
+.hint{font-size:13px;color:var(--muted);margin:0}
+.hint a{color:var(--accent)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:max(16px,env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:8px;z-index:30;font-size:14px;max-width:calc(100% - 32px)}
+[hidden]{display:none!important}
+@media (max-width:640px){.panel{top:auto;height:min(88vh,680px);width:100%;border-left:0;border-top:1px solid var(--line);border-radius:14px 14px 0 0;padding-bottom:max(20px,env(safe-area-inset-bottom,0px))}}
 </style>
 </head>
 <body>
@@ -105,6 +142,9 @@ body.detail-open .detail{display:grid;gap:10px}
   </header>
   <div class="toolbar">
     <input class="search" id="q" type="search" placeholder="Поиск по названию" aria-label="Поиск">
+    <button class="btn edit-only primary" type="button" id="addBtn">Добавить игру</button>
+    <button class="btn edit-only" type="button" id="groupsBtn">Группы</button>
+    <button class="btn" type="button" id="editBtn">Правка</button>
     <div class="legend" id="legend"></div>
   </div>
   <div class="tablebox">
@@ -117,16 +157,18 @@ body.detail-open .detail{display:grid;gap:10px}
   <section class="detail" id="detail"></section>
   <p class="note" id="foot">«Старая версия» — на площадке опубликована не та версия, что указана как текущая у игры.</p>
 </div>
+<aside class="panel" id="panel" hidden aria-label="Правка"></aside>
+<div class="toast" id="toast" hidden></div>
 <script>
 // Данные: games.json из репозитория Bezinteresa/games-registry. Рядом лежащий games.json — запасной вариант.
 const SOURCES=['https://raw.githubusercontent.com/Bezinteresa/games-registry/main/games.json','games.json'];
 const STATUS={none:'Не выложена',draft:'Черновик',review:'На модерации',live:'Опубликована',rejected:'Отклонена'};
 const CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 const BACK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
-let PLATFORMS=[], games=[], query='', openId=null, cameFromList=false, collapsed=new Set();
+let PLATFORMS=[], GROUPS=[], games=[], query='', openId=null, cameFromList=false, collapsed=new Set(), savedCollapse=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-try{collapsed=new Set(JSON.parse(localStorage.getItem('collapsedGroups')||'[]'))}catch{}
+try{const s=localStorage.getItem('collapsedGroups');if(s){savedCollapse=JSON.parse(s);collapsed=new Set(savedCollapse)}}catch{}
 
 function effective(g,pid){
   const p=(g.platforms||{})[pid]||{}; const st=p.status||'none';
@@ -145,17 +187,22 @@ function render(){
   const list=games.filter(g=>!q||[g.name,g.altName].some(s=>(s||'').toLowerCase().includes(q)));
   const groups=new Map();
   for(const g of list){const k=g.group||'Без группы';if(!groups.has(k))groups.set(k,[]);groups.get(k).push(g)}
-  const keys=[...groups.keys()].sort((a,b)=>a==='Без группы'?1:b==='Без группы'?-1:b.localeCompare(a,'ru',{numeric:true}));
+  // порядок групп — как в списке groups в games.json; пустые группы показываются, пока нет поиска
+  const order=GROUPS.map(g=>g.name);
+  if(!q)for(const n of order)if(!groups.has(n))groups.set(n,[]);
+  const rank=k=>{const i=order.indexOf(k);return i<0?(k==='Без группы'?1e6:1e5):i};
+  const keys=[...groups.keys()].sort((a,b)=>rank(a)-rank(b)||a.localeCompare(b,'ru',{numeric:true}));
   for(const k of keys)groups.get(k).sort((a,b)=>(a.name||'').localeCompare(b.name||'','ru'));
   // таблица
   let t='';
   for(const k of keys){
     t+=`<tr class="group"><td class="gcol">${groupBtn(k,groups.get(k).length)}</td><td colspan="${PLATFORMS.length+1}"></td></tr>`;
     if(!isOpen(k))continue;
+    if(!groups.get(k).length){t+=`<tr><td class="gcol gmeta">В группе пока нет игр.</td><td colspan="${PLATFORMS.length+1}"></td></tr>`;continue}
     for(const g of groups.get(k)){
-      t+=`<tr><td class="gcol"><div class="gname">${esc(g.name)}</div>${g.altName?`<div class="gmeta">${esc(g.altName)}</div>`:''}</td><td class="ver">${esc(g.version||'—')}</td>`;
+      t+=`<tr><td class="gcol"><div class="gname" data-gedit="${esc(g.id)}">${esc(g.name)}</div>${g.altName?`<div class="gmeta">${esc(g.altName)}</div>`:''}</td><td class="ver">${esc(g.version||'—')}</td>`;
       for(const p of PLATFORMS){const e=effective(g,p.id);
-        t+=`<td><div class="cell"><span class="pill s-${e.cls}">${esc(e.label)}</span>${e.p.version&&e.p.status!=='none'?`<span class="ver">${esc(e.p.version)}</span>`:''}${e.p.note?`<span class="cnote" title="${esc(e.p.note)}">${esc(e.p.note)}</span>`:''}</div></td>`}
+        t+=`<td><div class="cell" data-game="${esc(g.id)}" data-plat="${esc(p.id)}"><span class="pill s-${e.cls}">${esc(e.label)}</span>${e.p.version&&e.p.status!=='none'?`<span class="ver">${esc(e.p.version)}</span>`:''}${e.p.note?`<span class="cnote" title="${esc(e.p.note)}">${esc(e.p.note)}</span>`:''}</div></td>`}
       t+='</tr>';
     }
   }
@@ -165,6 +212,7 @@ function render(){
   for(const k of keys){
     m+=`<div class="mgroup">${groupBtn(k,groups.get(k).length)}</div>`;
     if(!isOpen(k))continue;
+    if(!groups.get(k).length){m+='<p class="mempty">В группе пока нет игр.</p>';continue}
     for(const g of groups.get(k)){
       const chips=PLATFORMS.map(p=>{const e=effective(g,p.id);return e.cls==='none'?'':`<span class="pill sm s-${e.cls}">${esc(p.name)}</span>`}).join('');
       m+=`<button class="mcard" type="button" data-open="${esc(g.id)}"><span class="mtop"><b>${esc(g.name)}</b><span class="ver">${esc(g.version||'')}</span></span><span class="mchips">${chips||'<span class="mempty">Нигде не выложена</span>'}</span></button>`;
@@ -181,8 +229,9 @@ function renderDetail(){
   if(g){
     h+=`<div class="dmeta">${g.altName?`<span>${esc(g.altName)}</span>`:''}<span>Текущая версия: <span class="ver">${esc(g.version||'не указана')}</span></span>${g.group?`<span>Группа: ${esc(g.group)}</span>`:''}${g.note?`<span>${esc(g.note)}</span>`:''}</div>`;
     for(const p of PLATFORMS){const e=effective(g,p.id);
-      h+=`<div class="prow"><span class="pname">${esc(p.name)}</span><span class="pill s-${e.cls}">${esc(e.label)}</span>${e.p.version&&e.p.status!=='none'?`<span class="pnote">Версия на площадке: <span class="ver">${esc(e.p.version)}</span></span>`:''}${e.p.note?`<span class="pnote">${esc(e.p.note)}</span>`:''}</div>`}
+      h+=`<div class="prow" data-game="${esc(g.id)}" data-plat="${esc(p.id)}"><span class="pname">${esc(p.name)}</span><span class="pill s-${e.cls}">${esc(e.label)}</span>${e.p.version&&e.p.status!=='none'?`<span class="pnote">Версия на площадке: <span class="ver">${esc(e.p.version)}</span></span>`:''}${e.p.note?`<span class="pnote">${esc(e.p.note)}</span>`:''}</div>`}
   }
+  if(g)h+=`<div class="actions"><button class="btn edit-only" type="button" data-gedit="${esc(g.id)}">Изменить данные игры</button></div>`;
   $('detail').innerHTML=h;
   $('backBtn').onclick=()=>{if(cameFromList){cameFromList=false;history.back()}else location.hash='list'};
 }
@@ -192,22 +241,180 @@ function stats(){
   $('stats').innerHTML=[[games.length,'игр'],[live,'актуальных публикаций'],[old,'нужно обновить'],[review,'на модерации']].map(([n,t])=>`<div class="stat"><b>${n}</b><span>${t}</span></div>`).join('');
 }
 document.addEventListener('click',e=>{
+  if(e.target.closest('#panel'))return;
   const t=e.target.closest('.gtoggle');if(t){toggleGroup(t.dataset.group);return}
-  const c=e.target.closest('.mcard');if(c){cameFromList=true;location.hash='g-'+c.dataset.open}
+  const c=e.target.closest('.mcard');if(c){cameFromList=true;location.hash='g-'+c.dataset.open;return}
+  if(!TOKEN)return;
+  const ge=e.target.closest('[data-gedit]');if(ge){openGame(ge.dataset.gedit);return}
+  const cell=e.target.closest('.cell[data-plat],.prow[data-plat]');if(cell)openCell(cell.dataset.game,cell.dataset.plat);
 });
 $('q').addEventListener('input',e=>{query=e.target.value;render()});
 
+function applyData(data){
+  PLATFORMS=data.platforms||[]; GROUPS=data.groups||[]; games=data.games||[];
+  if(!savedCollapse)collapsed=new Set(GROUPS.filter(g=>g.collapsed).map(g=>g.name));
+  $('headRow').innerHTML='<th class="gcol">Игра</th><th>Версия</th>'+PLATFORMS.map(p=>`<th>${esc(p.name)}</th>`).join('');
+  $('legend').innerHTML=[...Object.entries(STATUS).map(([id,n])=>`<span class="pill s-${id}">${esc(n)}</span>`),'<span class="pill s-old">Старая версия</span>'].join('');
+  if(data.updated)$('upd').textContent='Обновлено: '+data.updated.split('-').reverse().join('.')+'.';
+  render();
+}
+
+/* ---------- Правка через GitHub API ----------
+   Ключ — fine-grained token GitHub только на этот репозиторий (Contents: Read and write).
+   Хранится только в браузере этого компьютера (localStorage), в файлы и репозиторий не попадает. */
+const API='https://api.github.com/repos/Bezinteresa/games-registry/contents/games.json';
+let TOKEN=null;
+try{TOKEN=localStorage.getItem('registryToken')||null}catch{}
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const b64enc=s=>{const b=new TextEncoder().encode(s);let x='';for(let i=0;i<b.length;i+=0x8000)x+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(x)};
+const b64dec=s=>new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\s/g,'')),c=>c.charCodeAt(0)));
+function toast(t){const el=$('toast');el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,3000)}
+function setEditMode(){document.body.classList.toggle('can-edit',!!TOKEN);$('editBtn').textContent=TOKEN?'Правка: включена':'Правка'}
+
+async function apiLoad(token=TOKEN){
+  const r=await fetch(API+'?ref=main&t='+Date.now(),{headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json'},cache:'no-store'});
+  if(!r.ok)throw Object.assign(new Error('load'),{status:r.status});
+  const j=await r.json();
+  return{data:JSON.parse(b64dec(j.content)),sha:j.sha};
+}
+async function apiSave(data,sha,message){
+  const body=JSON.stringify(data,null,2)+'\n';
+  const r=await fetch(API,{method:'PUT',headers:{Authorization:'Bearer '+TOKEN,Accept:'application/vnd.github+json','Content-Type':'application/json'},
+    body:JSON.stringify({message,content:b64enc(body),sha,branch:'main'})});
+  if(!r.ok)throw Object.assign(new Error('save'),{status:r.status});
+}
+// Изменение всегда применяется к самой свежей версии файла; при одновременной правке — одна повторная попытка.
+let busy=false;
+async function mutate(fn,message){
+  if(busy)return false; busy=true;
+  try{
+    for(let attempt=0;attempt<2;attempt++){
+      const {data,sha}=await apiLoad();
+      const res=fn(data); if(res===false)return false;
+      data.updated=today();
+      try{await apiSave(data,sha,message);applyData(data);toast('Сохранено на GitHub');return true}
+      catch(e){if(e.status===409&&attempt===0)continue;throw e}
+    }
+  }catch(e){
+    const s=e.status;
+    toast(s===401?'Ключ не подходит или истёк — войдите заново':s===403||s===404?'У ключа нет права записи в этот репозиторий':s===409?'Файл только что изменили — обновите страницу':'Не удалось сохранить, проверьте интернет');
+    return false;
+  }finally{busy=false}
+}
+function closePanel(){$('panel').hidden=true;$('panel').innerHTML=''}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('panel').hidden)closePanel()});
+function openPanel(html){$('panel').innerHTML=html;$('panel').hidden=false;const c=$('panel').querySelector('[data-close]');if(c)c.onclick=closePanel}
+
+$('editBtn').onclick=()=>{
+  openPanel(`<h2>Правка реестра</h2>
+    <p class="hint">Изменения сохраняются прямо в <code>games.json</code> на GitHub. Нужен ключ — fine-grained token GitHub только на репозиторий games-registry с правом Contents: Read and write.
+    Создать: <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Settings → Fine-grained tokens</a>.</p>
+    <p class="hint">Ключ хранится только в этом браузере на этом компьютере. Не вставляйте его в чаты и не отправляйте никому.</p>
+    ${TOKEN?`<p class="hint">Правка включена.</p><div class="actions"><button class="btn danger" type="button" id="logout">Выйти и забыть ключ</button><button class="btn" type="button" data-close>Закрыть</button></div>`
+    :`<div class="row"><label for="tok">Ключ</label><input id="tok" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…"></div>
+      <div class="actions"><button class="btn primary" type="button" id="login">Включить правку</button><button class="btn" type="button" data-close>Закрыть</button></div>`}`);
+  if($('logout'))$('logout').onclick=()=>{TOKEN=null;try{localStorage.removeItem('registryToken')}catch{};setEditMode();closePanel();render();toast('Ключ удалён из этого браузера')};
+  if($('login')){$('tok').focus();$('login').onclick=async()=>{
+    const t=$('tok').value.trim();if(!t)return;
+    $('login').disabled=true;
+    try{const {data}=await apiLoad(t);TOKEN=t;try{localStorage.setItem('registryToken',t)}catch{};setEditMode();applyData(data);closePanel();toast('Правка включена')}
+    catch(e){$('login').disabled=false;toast(e.status===401?'Ключ не подходит':e.status===404||e.status===403?'Ключ не видит репозиторий games-registry':'Не удалось проверить ключ')}
+  }}
+};
+
+function openCell(gid,pid){
+  const g=games.find(x=>x.id===gid);const plat=PLATFORMS.find(p=>p.id===pid);if(!g||!plat)return;
+  const cur=(g.platforms||{})[pid]||{};const st=cur.status||'none';
+  openPanel(`<h2>${esc(g.name)} · ${esc(plat.name)}</h2>
+    <p class="hint">Текущая версия игры: <span class="ver">${esc(g.version||'не указана')}</span></p>
+    <div class="row"><span class="lbl">Статус на площадке</span><div class="choices">${Object.entries(STATUS).map(([id,n])=>
+      `<label><input type="radio" name="st" value="${id}" ${id===st?'checked':''}><span class="pill s-${id}">${esc(n)}</span></label>`).join('')}</div></div>
+    <div class="row"><label for="pv">Версия на площадке</label><input id="pv" value="${esc(cur.version||'')}" placeholder="${esc(g.version||'1.0.0')}"></div>
+    <div class="row"><label for="pn">Заметка</label><input id="pn" value="${esc(cur.note||'')}"></div>
+    <div class="actions"><button class="btn primary" type="button" id="save">Сохранить</button>
+      ${g.version?`<button class="btn" type="button" id="liveNow">Выложена текущая (${esc(g.version)})</button>`:''}
+      <button class="btn" type="button" data-close>Закрыть</button></div>`);
+  const go=async v=>{const ok=await mutate(d=>{const x=d.games.find(y=>y.id===gid);if(!x)return false;x.platforms=x.platforms||{};x.platforms[pid]=v;x.updatedAt=today()},`${g.name}: ${plat.name} — ${STATUS[v.status]}`);if(ok)closePanel()};
+  $('save').onclick=()=>{const status=$('panel').querySelector('input[name=st]:checked')?.value||'none';let version=$('pv').value.trim();if(!version&&status!=='none')version=g.version||'';go({status,version,note:$('pn').value.trim()})};
+  if($('liveNow'))$('liveNow').onclick=()=>go({status:'live',version:g.version,note:$('pn').value.trim()});
+}
+
+function slug(s){
+  const m={а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'y',к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'h',ц:'c',ч:'ch',ш:'sh',щ:'sch',ъ:'',ы:'y',ь:'',э:'e',ю:'yu',я:'ya'};
+  return String(s).toLowerCase().split('').map(c=>m[c]??c).join('').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60)||'game';
+}
+function groupOptions(sel){const names=[...new Set([...GROUPS.map(g=>g.name),...games.map(g=>g.group).filter(Boolean)])];
+  return `<option value="">Без группы</option>`+names.map(n=>`<option ${n===sel?'selected':''}>${esc(n)}</option>`).join('')}
+function openGame(gid){
+  const g=gid?games.find(x=>x.id===gid):null;
+  openPanel(`<h2>${g?'Игра: '+esc(g.name):'Новая игра'}</h2>
+    <div class="row"><label for="gn">Название (как в игре)</label><input id="gn" value="${esc(g?.name||'')}"></div>
+    <div class="row"><label for="ga">Второе название</label><input id="ga" value="${esc(g?.altName||'')}"></div>
+    <div class="row"><label for="gg">Группа</label><select id="gg">${groupOptions(g?.group||'')}</select></div>
+    <div class="row"><label for="gv">Текущая версия</label><input id="gv" value="${esc(g?.version||'')}" placeholder="1.0.0"></div>
+    <div class="row"><label for="gf">Папка проекта</label><input id="gf" value="${esc(g?.folder||'')}"></div>
+    <div class="row"><label for="gnote">Заметки</label><textarea id="gnote">${esc(g?.note||'')}</textarea></div>
+    <div class="actions"><button class="btn primary" type="button" id="save">${g?'Сохранить':'Добавить'}</button><button class="btn" type="button" data-close>Закрыть</button>
+      ${g?'<button class="btn danger" type="button" id="delAsk">Удалить игру</button>':''}</div><div id="delBox"></div>`);
+  $('gn').focus();
+  $('save').onclick=async()=>{
+    const name=$('gn').value.trim();if(!name){$('gn').focus();toast('Укажите название');return}
+    const v={name,altName:$('ga').value.trim(),group:$('gg').value,version:$('gv').value.trim(),folder:$('gf').value.trim(),note:$('gnote').value.trim(),updatedAt:today()};
+    const ok=await mutate(d=>{
+      if(g){const x=d.games.find(y=>y.id===g.id);if(!x)return false;Object.assign(x,v)}
+      else{let id=slug(name);if(d.games.some(y=>y.id===id))id+='-'+Date.now().toString(36);d.games.push({id,...v,platforms:{}})}
+    },g?`${name}: данные игры`:`Новая игра: ${name}`);
+    if(ok)closePanel();
+  };
+  if(g)$('delAsk').onclick=()=>{
+    $('delBox').innerHTML=`<div class="confirm"><span>Удалить «${esc(g.name)}» из реестра? В истории GitHub она останется, но со страницы пропадёт.</span><div class="actions"><button class="btn danger" type="button" id="delYes">Удалить</button><button class="btn" type="button" id="delNo">Оставить</button></div></div>`;
+    $('delNo').onclick=()=>$('delBox').innerHTML='';
+    $('delYes').onclick=async()=>{const ok=await mutate(d=>{d.games=d.games.filter(y=>y.id!==g.id)},`Удалена игра: ${g.name}`);if(ok){closePanel();if(openId===g.id)location.hash='list'}};
+  };
+}
+
+function openGroups(){
+  const count=n=>games.filter(g=>(g.group||'')===n).length;
+  const rows=GROUPS.map((gr,i)=>`<div class="grow"><div><b>${esc(gr.name)}</b> <span class="gcount">игр: ${count(gr.name)}</span>
+      <label class="check"><input type="checkbox" data-coll="${i}" ${gr.collapsed?'checked':''}> свёрнута по умолчанию</label></div>
+    <div class="gbtns"><button class="btn" type="button" data-up="${i}" ${i===0?'disabled':''} aria-label="Выше">Выше</button><button class="btn" type="button" data-down="${i}" ${i===GROUPS.length-1?'disabled':''} aria-label="Ниже">Ниже</button>
+      <button class="btn" type="button" data-ren="${i}">Переименовать</button><button class="btn danger" type="button" data-del="${i}">Удалить</button></div></div>`).join('');
+  openPanel(`<h2>Группы</h2><p class="hint">Порядок здесь — порядок на странице. Удаление группы не удаляет игры: они переходят в выбранную группу.</p>
+    <div class="row">${rows||'<p class="hint">Групп пока нет.</p>'}</div>
+    <div class="row"><label for="ng">Новая группа</label><input id="ng" placeholder="например Неделя 3"></div>
+    <div class="actions"><button class="btn primary" type="button" id="addG">Добавить группу</button><button class="btn" type="button" data-close>Закрыть</button></div><div id="gBox"></div>`);
+  const p=$('panel');
+  const after=ok=>{if(ok)openGroups()};
+  $('addG').onclick=async()=>{const n=$('ng').value.trim();if(!n)return;if(GROUPS.some(g=>g.name===n)){toast('Такая группа уже есть');return}
+    after(await mutate(d=>{d.groups=d.groups||[];d.groups.unshift({name:n})},`Новая группа: ${n}`))};
+  p.querySelectorAll('[data-up],[data-down]').forEach(b=>b.onclick=async()=>{
+    const i=+(b.dataset.up??b.dataset.down),j=b.dataset.up!=null?i-1:i+1,name=GROUPS[i].name;
+    after(await mutate(d=>{const a=d.groups,k=a.findIndex(g=>g.name===name),m=k+(j-i);if(k<0||m<0||m>=a.length)return false;[a[k],a[m]]=[a[m],a[k]]},`Порядок групп: ${name}`))});
+  p.querySelectorAll('[data-coll]').forEach(c=>c.onchange=async()=>{const name=GROUPS[+c.dataset.coll].name,val=c.checked;
+    after(await mutate(d=>{const g=d.groups.find(x=>x.name===name);if(!g)return false;if(val)g.collapsed=true;else delete g.collapsed},`Группа ${name}: ${val?'свёрнута':'развёрнута'} по умолчанию`))});
+  p.querySelectorAll('[data-ren]').forEach(b=>b.onclick=()=>{const old=GROUPS[+b.dataset.ren].name;
+    $('gBox').innerHTML=`<div class="row"><label for="rn">Новое имя для «${esc(old)}»</label><input id="rn" value="${esc(old)}"><div class="actions"><button class="btn primary" type="button" id="rnOk">Переименовать</button></div></div>`;
+    $('rn').focus();$('rnOk').onclick=async()=>{const n=$('rn').value.trim();if(!n||n===old)return;if(GROUPS.some(g=>g.name===n)){toast('Такая группа уже есть');return}
+      after(await mutate(d=>{const g=d.groups.find(x=>x.name===old);if(!g)return false;g.name=n;d.games.forEach(x=>{if(x.group===old)x.group=n})},`Группа «${old}» → «${n}»`))}});
+  p.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const old=GROUPS[+b.dataset.del].name,n=count(old);
+    const opts=`<option value="">Без группы</option>`+GROUPS.filter(g=>g.name!==old).map(g=>`<option>${esc(g.name)}</option>`).join('');
+    $('gBox').innerHTML=`<div class="confirm"><span>Удалить группу «${esc(old)}»?${n?` В ней ${n} игр — куда их перенести:`:''}</span>${n?`<select id="moveTo">${opts}</select>`:''}
+      <div class="actions"><button class="btn danger" type="button" id="gDel">Удалить группу</button><button class="btn" type="button" id="gNo">Оставить</button></div></div>`;
+    $('gNo').onclick=()=>$('gBox').innerHTML='';
+    $('gDel').onclick=async()=>{const to=$('moveTo')?$('moveTo').value:'';
+      after(await mutate(d=>{d.groups=d.groups.filter(g=>g.name!==old);d.games.forEach(x=>{if(x.group===old)x.group=to})},`Удалена группа: ${old}`))}});
+}
+$('addBtn').onclick=()=>openGame(null);
+$('groupsBtn').onclick=openGroups;
+
 (async()=>{
+  setEditMode();
+  if(TOKEN){try{const {data}=await apiLoad();applyData(data);return}catch(e){if(e.status===401){TOKEN=null;try{localStorage.removeItem('registryToken')}catch{};setEditMode();toast('Ключ больше не действует — правка выключена')}}}
   for(const url of SOURCES){
     try{
       const r=await fetch(url+(url.startsWith('http')?'?t='+Date.now():''),{cache:'no-store'});
       if(!r.ok)continue;
-      const data=await r.json();
-      PLATFORMS=data.platforms||[]; games=data.games||[];
-      $('headRow').innerHTML='<th class="gcol">Игра</th><th>Версия</th>'+PLATFORMS.map(p=>`<th>${esc(p.name)}</th>`).join('');
-      $('legend').innerHTML=[...Object.entries(STATUS).map(([id,n])=>`<span class="pill s-${id}">${esc(n)}</span>`),'<span class="pill s-old">Старая версия</span>'].join('');
-      if(data.updated)$('upd').textContent='Обновлено: '+data.updated.split('-').reverse().join('.')+'.';
-      render(); return;
+      applyData(await r.json()); return;
     }catch{}
   }
   const msg='Не удалось загрузить список игр. Проверьте интернет и обновите страницу.';
