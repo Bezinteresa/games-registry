@@ -178,13 +178,13 @@
           "version": "1.3.0"
         },
         "vk": {
-          "note": "APP_ID 54885372, сборка 1.3.0 готова, группа vk.ru/club243098411",
-          "status": "none",
+          "note": "APP_ID 54885372, в кабинете «Откл»; группа vk.ru/club243098411",
+          "status": "draft",
           "version": ""
         },
         "yandex": {
-          "note": "комплект готов (Store/yandex), загружает владелец",
-          "status": "none",
+          "note": "черновик создан 09.11.2026",
+          "status": "draft",
           "version": ""
         }
       },
