@@ -128,6 +128,15 @@ body.can-edit .gname:hover{color:var(--accent)}
 .hint a{color:var(--accent)}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:max(16px,env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:8px;z-index:30;font-size:14px;max-width:calc(100% - 32px)}
 [hidden]{display:none!important}
+/* иконки игр */
+.gi{flex:none;width:36px;height:36px;border-radius:9px;object-fit:cover;background:var(--surface-2);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:15px;color:var(--muted);overflow:hidden}
+.gi.md{width:44px;height:44px;border-radius:11px;font-size:17px}
+.gi.lg{width:64px;height:64px;border-radius:14px;font-size:24px}
+.gwrap{display:flex;gap:10px;align-items:center;min-width:0}
+.gwrap>div{min-width:0}
+.mcard .mrow{display:flex;gap:12px;align-items:center;min-width:0}
+.mcard .mrow>span{display:grid;gap:8px;min-width:0;flex:1}
+.iconrow{display:flex;gap:12px;align-items:center}
 @media (max-width:640px){.panel{top:auto;height:min(88vh,680px);width:100%;border-left:0;border-top:1px solid var(--line);border-radius:14px 14px 0 0;padding-bottom:max(20px,env(safe-area-inset-bottom,0px))}}
 </style>
 </head>
@@ -175,6 +184,11 @@ function effective(g,pid){
   if(st==='live'&&p.version&&g.version&&p.version!==g.version)return{cls:'old',label:'Старая версия',p};
   return{cls:st,label:STATUS[st]||st,p};
 }
+const RAW='https://raw.githubusercontent.com/Bezinteresa/games-registry/main/';
+function iconHtml(g,size=''){
+  if(g.icon)return `<img class="gi ${size}" src="${esc(RAW+g.icon+(g.iconV?'?v='+g.iconV:''))}" alt="" loading="lazy" decoding="async">`;
+  return `<span class="gi ${size}" aria-hidden="true">${esc((g.name||'?').trim().charAt(0).toUpperCase())}</span>`;
+}
 const isOpen=k=>!collapsed.has(k)||!!query.trim();
 function groupBtn(k,n){return `<button class="gtoggle" type="button" data-group="${esc(k)}" aria-expanded="${isOpen(k)}">${CHEV}<span>${esc(k)}</span><span class="gcount">${n}</span></button>`}
 function toggleGroup(k){collapsed.has(k)?collapsed.delete(k):collapsed.add(k);try{localStorage.setItem('collapsedGroups',JSON.stringify([...collapsed]))}catch{};render()}
@@ -200,7 +214,7 @@ function render(){
     if(!isOpen(k))continue;
     if(!groups.get(k).length){t+=`<tr><td class="gcol gmeta">В группе пока нет игр.</td><td colspan="${PLATFORMS.length+1}"></td></tr>`;continue}
     for(const g of groups.get(k)){
-      t+=`<tr><td class="gcol"><div class="gname" data-gedit="${esc(g.id)}">${esc(g.name)}</div>${g.altName?`<div class="gmeta">${esc(g.altName)}</div>`:''}</td><td class="ver">${esc(g.version||'—')}</td>`;
+      t+=`<tr><td class="gcol"><div class="gwrap">${iconHtml(g)}<div><div class="gname" data-gedit="${esc(g.id)}">${esc(g.name)}</div>${g.altName?`<div class="gmeta">${esc(g.altName)}</div>`:''}</div></div></td><td class="ver">${esc(g.version||'—')}</td>`;
       for(const p of PLATFORMS){const e=effective(g,p.id);
         t+=`<td><div class="cell" data-game="${esc(g.id)}" data-plat="${esc(p.id)}"><span class="pill s-${e.cls}">${esc(e.label)}</span>${e.p.version&&e.p.status!=='none'?`<span class="ver">${esc(e.p.version)}</span>`:''}${e.p.note?`<span class="cnote" title="${esc(e.p.note)}">${esc(e.p.note)}</span>`:''}</div></td>`}
       t+='</tr>';
@@ -215,7 +229,7 @@ function render(){
     if(!groups.get(k).length){m+='<p class="mempty">В группе пока нет игр.</p>';continue}
     for(const g of groups.get(k)){
       const chips=PLATFORMS.map(p=>{const e=effective(g,p.id);return e.cls==='none'?'':`<span class="pill sm s-${e.cls}">${esc(p.name)}</span>`}).join('');
-      m+=`<button class="mcard" type="button" data-open="${esc(g.id)}"><span class="mtop"><b>${esc(g.name)}</b><span class="ver">${esc(g.version||'')}</span></span><span class="mchips">${chips||'<span class="mempty">Нигде не выложена</span>'}</span></button>`;
+      m+=`<button class="mcard" type="button" data-open="${esc(g.id)}"><span class="mrow">${iconHtml(g,'md')}<span><span class="mtop"><b>${esc(g.name)}</b><span class="ver">${esc(g.version||'')}</span></span><span class="mchips">${chips||'<span class="mempty">Нигде не выложена</span>'}</span></span></span></button>`;
     }
   }
   $('mlist').innerHTML=m||`<p class="mempty">${games.length?'Ничего не найдено.':'Игр пока нет.'}</p>`;
@@ -225,7 +239,7 @@ function renderDetail(){
   const g=openId&&games.find(x=>x.id===openId);
   document.body.classList.toggle('detail-open',!!openId);
   if(!openId){$('detail').innerHTML='';return}
-  let h=`<div class="dhead"><button class="back" type="button" id="backBtn" aria-label="Назад к списку">${BACK}</button><h2>${g?esc(g.name):'Игра не найдена'}</h2></div>`;
+  let h=`<div class="dhead"><button class="back" type="button" id="backBtn" aria-label="Назад к списку">${BACK}</button>${g?iconHtml(g,'md'):''}<h2>${g?esc(g.name):'Игра не найдена'}</h2></div>`;
   if(g){
     h+=`<div class="dmeta">${g.altName?`<span>${esc(g.altName)}</span>`:''}<span>Текущая версия: <span class="ver">${esc(g.version||'не указана')}</span></span>${g.group?`<span>Группа: ${esc(g.group)}</span>`:''}${g.note?`<span>${esc(g.note)}</span>`:''}</div>`;
     for(const p of PLATFORMS){const e=effective(g,p.id);
@@ -301,6 +315,21 @@ async function mutate(fn,message){
     return false;
   }finally{busy=false}
 }
+async function apiPutFile(path,b64,message){
+  const url='https://api.github.com/repos/Bezinteresa/games-registry/contents/'+path;
+  const h={Authorization:'Bearer '+TOKEN,Accept:'application/vnd.github+json'};
+  let sha;
+  const cur=await fetch(url+'?ref=main&t='+Date.now(),{headers:h,cache:'no-store'});
+  if(cur.ok)sha=(await cur.json()).sha;else if(cur.status!==404)throw Object.assign(new Error('file'),{status:cur.status});
+  const r=await fetch(url,{method:'PUT',headers:{...h,'Content-Type':'application/json'},body:JSON.stringify({message,content:b64,branch:'main',...(sha?{sha}:{})})});
+  if(!r.ok)throw Object.assign(new Error('file'),{status:r.status});
+}
+function fileToIcon(file){
+  return new Promise((res,rej)=>{const img=new Image();
+    img.onload=()=>{const s=Math.min(img.width,img.height),c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d');x.imageSmoothingQuality='high';
+      x.drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,128,128);URL.revokeObjectURL(img.src);res(c.toDataURL('image/png').split(',')[1])};
+    img.onerror=()=>rej(new Error('img'));img.src=URL.createObjectURL(file)});
+}
 function closePanel(){$('panel').hidden=true;$('panel').innerHTML=''}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('panel').hidden)closePanel()});
 function openPanel(html){$('panel').innerHTML=html;$('panel').hidden=false;const c=$('panel').querySelector('[data-close]');if(c)c.onclick=closePanel}
@@ -350,6 +379,7 @@ function openGame(gid){
   openPanel(`<h2>${g?'Игра: '+esc(g.name):'Новая игра'}</h2>
     <div class="row"><label for="gn">Название (как в игре)</label><input id="gn" value="${esc(g?.name||'')}"></div>
     <div class="row"><label for="ga">Второе название</label><input id="ga" value="${esc(g?.altName||'')}"></div>
+    <div class="row"><span class="lbl">Иконка</span>${g?`<div class="iconrow">${iconHtml(g,'lg')}<input type="file" id="gicon" accept="image/png,image/jpeg,image/webp"></div><span class="hint">Берётся квадрат по центру и уменьшается до 128×128. Сохраняется сразу.</span>`:'<span class="hint">Иконку можно добавить после того, как игра появится в списке.</span>'}</div>
     <div class="row"><label for="gg">Группа</label><select id="gg">${groupOptions(g?.group||'')}</select></div>
     <div class="row"><label for="gv">Текущая версия</label><input id="gv" value="${esc(g?.version||'')}" placeholder="1.0.0"></div>
     <div class="row"><label for="gf">Папка проекта</label><input id="gf" value="${esc(g?.folder||'')}"></div>
@@ -357,6 +387,16 @@ function openGame(gid){
     <div class="actions"><button class="btn primary" type="button" id="save">${g?'Сохранить':'Добавить'}</button><button class="btn" type="button" data-close>Закрыть</button>
       ${g?'<button class="btn danger" type="button" id="delAsk">Удалить игру</button>':''}</div><div id="delBox"></div>`);
   $('gn').focus();
+  if(g)$('gicon').onchange=async e=>{
+    const f=e.target.files[0];if(!f)return;
+    e.target.disabled=true;toast('Загружаю иконку…');
+    try{
+      const b64=await fileToIcon(f);
+      await apiPutFile('icons/'+g.id+'.png',b64,`${g.name}: иконка`);
+      const ok=await mutate(d=>{const x=d.games.find(y=>y.id===g.id);if(!x)return false;x.icon='icons/'+g.id+'.png';x.iconV=Date.now().toString(36);x.updatedAt=today()},`${g.name}: иконка`);
+      if(ok)openGame(g.id);
+    }catch(err){e.target.disabled=false;toast(err.status===401?'Ключ не подходит':err.status===403||err.status===404?'У ключа нет права записи':'Не удалось загрузить иконку')}
+  };
   $('save').onclick=async()=>{
     const name=$('gn').value.trim();if(!name){$('gn').focus();toast('Укажите название');return}
     const v={name,altName:$('ga').value.trim(),group:$('gg').value,version:$('gv').value.trim(),folder:$('gf').value.trim(),note:$('gnote').value.trim(),updatedAt:today()};

@@ -64,7 +64,8 @@
           "status": "draft",
           "version": ""
         }
-      }
+      },
+      "icon": "icons/apocalypse-merge.png"
     },
     {
       "id": "arrows-pixel-puzzle",
@@ -81,7 +82,8 @@
           "status": "draft",
           "version": ""
         }
-      }
+      },
+      "icon": "icons/arrows-pixel-puzzle.png"
     },
     {
       "id": "bogatyr-survivors",
@@ -120,7 +122,8 @@
           "status": "live",
           "version": ""
         }
-      }
+      },
+      "icon": "icons/christmas-balls-unity.png"
     },
     {
       "id": "christmas-balls-web",
@@ -147,7 +150,8 @@
           "status": "review",
           "version": "1.1.0"
         }
-      }
+      },
+      "icon": "icons/christmas-balls-web.png"
     },
     {
       "id": "flip-slam",
@@ -179,7 +183,8 @@
           "status": "none",
           "version": ""
         }
-      }
+      },
+      "icon": "icons/flip-slam.png"
     },
     {
       "id": "forest-survival",
@@ -222,7 +227,8 @@
           "status": "draft",
           "version": ""
         }
-      }
+      },
+      "icon": "icons/muravi-nosilschiki.png"
     },
     {
       "id": "pdd-online",
@@ -239,7 +245,8 @@
           "status": "draft",
           "version": ""
         }
-      }
+      },
+      "icon": "icons/pdd-online.png"
     },
     {
       "id": "pixel-eaters",
@@ -256,7 +263,8 @@
           "status": "draft",
           "version": ""
         }
-      }
+      },
+      "icon": "icons/pixel-eaters.png"
     },
     {
       "id": "pixel-mahjong",
@@ -283,7 +291,8 @@
           "status": "draft",
           "version": ""
         }
-      }
+      },
+      "icon": "icons/pixel-mahjong.png"
     },
     {
       "id": "po-polochkam",
@@ -332,7 +341,8 @@
           "status": "draft",
           "version": ""
         }
-      }
+      },
+      "icon": "icons/pobeda-nad-chudovischem.png"
     },
     {
       "id": "slova-v-kruge",
@@ -349,7 +359,8 @@
           "status": "rejected",
           "version": ""
         }
-      }
+      },
+      "icon": "icons/slova-v-kruge.png"
     },
     {
       "id": "sortirovka-cvetov",
@@ -403,7 +414,8 @@
           "status": "live",
           "version": "0.3.2"
         }
-      }
+      },
+      "icon": "icons/spasenie-inoplanetyan.png"
     },
     {
       "id": "stena-ognya",
@@ -425,7 +437,8 @@
           "status": "draft",
           "version": ""
         }
-      }
+      },
+      "icon": "icons/stena-ognya.png"
     },
     {
       "id": "stick-fight-arena",
@@ -452,7 +465,8 @@
           "status": "none",
           "version": ""
         }
-      }
+      },
+      "icon": "icons/stick-fight-arena.png"
     },
     {
       "id": "yantarnyy-rubezh",
@@ -474,7 +488,8 @@
       "version": "0.3.1",
       "note": "0.3.1 (09.11.2026): ритм-битва медленнее, нот больше, 25 с. В 0.3.0: танец на главном, подиум с оценкой участниц, ритм-битва. Нигде не выложена",
       "updatedAt": "2026-11-09",
-      "platforms": {}
+      "platforms": {},
+      "icon": "icons/zvezdnyy-pokaz.png"
     },
     {
       "id": "beskonechnyy-bastion",
