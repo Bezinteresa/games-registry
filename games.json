@@ -1,0 +1,469 @@
+{
+  "updated": "2026-11-09",
+  "platforms": [
+    {
+      "id": "playgama",
+      "name": "Playgama"
+    },
+    {
+      "id": "yandex",
+      "name": "Яндекс Игры"
+    },
+    {
+      "id": "vk",
+      "name": "VK"
+    },
+    {
+      "id": "ok",
+      "name": "OK"
+    },
+    {
+      "id": "rustore",
+      "name": "RuStore"
+    },
+    {
+      "id": "site",
+      "name": "Свой сайт"
+    }
+  ],
+  "games": [
+    {
+      "id": "after-the-siren",
+      "name": "After the Siren",
+      "altName": "ShooterOffline (Unity)",
+      "folder": "H:\\Unity\\ShooterOfflineOnline",
+      "group": "В разработке",
+      "version": "",
+      "note": "VR-шутер (PICO) + ПК + мобильные, сервер Colyseus; выпущенной версии нет",
+      "updatedAt": "2026-11-09",
+      "platforms": {}
+    },
+    {
+      "id": "apocalypse-merge",
+      "name": "Apocalypse Merge",
+      "altName": "",
+      "folder": "H:\\Html AI\\ApoclypseMerge",
+      "group": "Ранее",
+      "version": "",
+      "note": "нарушения 16.7: звук, таймеры рекламы, эмодзи",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "playgama": {
+          "note": "",
+          "status": "draft",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "arrows-pixel-puzzle",
+      "name": "Arrows: Pixel Puzzle",
+      "altName": "Стрелочки",
+      "folder": "H:\\Html AI\\Стрелочки",
+      "group": "Ранее",
+      "version": "",
+      "note": "",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "playgama": {
+          "note": "",
+          "status": "draft",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "bogatyr-survivors",
+      "name": "Bogatyr Survivors",
+      "altName": "",
+      "folder": "H:\\Html AI\\2 Vampur  Survival",
+      "group": "Ранее",
+      "version": "",
+      "note": "",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "playgama": {
+          "note": "",
+          "status": "draft",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "christmas-balls-unity",
+      "name": "Новогодние шарики 3д (Unity)",
+      "altName": "",
+      "folder": "H:\\Unity\\Cristmassballs2023",
+      "group": "Ранее",
+      "version": "",
+      "note": "Unity-версия; номера версий у Яндекса и RuStore свои",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "rustore": {
+          "note": "31.10.2026",
+          "status": "live",
+          "version": "0.1.0"
+        },
+        "yandex": {
+          "note": "обновлена 01.11.2026",
+          "status": "live",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "christmas-balls-web",
+      "name": "Новогодние шарики (веб)",
+      "altName": "Christmas Balls: Merge",
+      "folder": "H:\\Html AI\\2 CristmassBalls",
+      "group": "Ранее",
+      "version": "1.1.0",
+      "note": "Веб-версия на Vue + Three.js",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "ok": {
+          "note": "OK app id 512004893572, та же сборка, Mobile+Web",
+          "status": "review",
+          "version": "1.1.0"
+        },
+        "playgama": {
+          "note": "песочница 1.1.0, дальше сертификация",
+          "status": "draft",
+          "version": "1.1.0"
+        },
+        "vk": {
+          "note": "app_id 51871512, загрузка 1793802111, Mobile+Web; без покупок (делается сервер голосов)",
+          "status": "review",
+          "version": "1.1.0"
+        }
+      }
+    },
+    {
+      "id": "flip-slam",
+      "name": "Flip Slam",
+      "altName": "Сальто-Бросок",
+      "folder": "H:\\Html AI\\WrestleJumpRemaster",
+      "group": "Ранее",
+      "version": "1.3.0",
+      "note": "1.3.0: лидерборд по победам; покупки coins_500/1500/4000",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "ok": {
+          "note": "та же сборка через OK ID; группа ok.ru/group/70000060943888",
+          "status": "none",
+          "version": ""
+        },
+        "playgama": {
+          "note": "песочница playgama.ai/play/7s7twzof2l65tr; QA Tool не пройден",
+          "status": "draft",
+          "version": "1.3.0"
+        },
+        "vk": {
+          "note": "APP_ID 54885372, сборка 1.3.0 готова, группа vk.ru/club243098411",
+          "status": "none",
+          "version": ""
+        },
+        "yandex": {
+          "note": "комплект готов (Store/yandex), загружает владелец",
+          "status": "none",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "forest-survival",
+      "name": "ForestSurvival",
+      "altName": "",
+      "folder": "H:\\Html AI\\ForestSurvival99",
+      "group": "В разработке",
+      "version": "",
+      "note": "кооп-выживание, задача T040b",
+      "updatedAt": "2026-11-09",
+      "platforms": {}
+    },
+    {
+      "id": "muravi-nosilschiki",
+      "name": "Муравьи-носильщики: пиксель-блоки",
+      "altName": "Ant Carriers: Pixel Blocks",
+      "folder": "H:\\Html AI\\Муравьи",
+      "group": "Ранее",
+      "version": "1.2.0",
+      "note": "",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "playgama": {
+          "note": "песочница 1.1.1, архив 1.2.0 не загружен",
+          "status": "draft",
+          "version": "1.1.1"
+        },
+        "rustore": {
+          "note": "не опубликовано",
+          "status": "draft",
+          "version": ""
+        },
+        "vk": {
+          "note": "в кабинете «Вкл», статус модерации уточнить",
+          "status": "draft",
+          "version": ""
+        },
+        "yandex": {
+          "note": "",
+          "status": "draft",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "pdd-online",
+      "name": "Правила дорожного движения онлайн",
+      "altName": "",
+      "folder": "H:\\Html AI\\2 Пдд с практикой",
+      "group": "Ранее",
+      "version": "1.0.6",
+      "note": "",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "yandex": {
+          "note": "архив 1.0.6 собран",
+          "status": "draft",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "pixel-eaters",
+      "name": "Pixel Eaters",
+      "altName": "Пожиратель пикселей",
+      "folder": "H:\\Html AI\\Пожиратель пикселей",
+      "group": "Ранее",
+      "version": "",
+      "note": "",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "playgama": {
+          "note": "автопроверка PASSED",
+          "status": "draft",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "pixel-mahjong",
+      "name": "Уютный пиксельный маджонг",
+      "altName": "Cozy Pixel Mahjong",
+      "folder": "H:\\Html AI\\Маджонг",
+      "group": "Ранее",
+      "version": "1.0.1",
+      "note": "синтез звука и Bridge 2.3.1 — исправить до сертификации (16.7)",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "playgama": {
+          "note": "песочница playgama.ai/play/o45vcq2xwz6n35; в каталог не отправлялась",
+          "status": "draft",
+          "version": "1.0.1"
+        },
+        "rustore": {
+          "note": "Unity-порт в работе (H:\\Unity\\Cozy Pixel Mahjong)",
+          "status": "none",
+          "version": ""
+        },
+        "yandex": {
+          "note": "черновик в консоли есть, карточка готова в store/yandex",
+          "status": "draft",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "po-polochkam",
+      "name": "По полочкам: Магазин сладостей",
+      "altName": "",
+      "folder": "",
+      "group": "Ранее",
+      "version": "",
+      "note": "папку проекта уточнить",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "rustore": {
+          "note": "24.08.2026",
+          "status": "live",
+          "version": "0.1.0"
+        },
+        "yandex": {
+          "note": "черновик с ноября 2025",
+          "status": "draft",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "pobeda-nad-chudovischem",
+      "name": "Победа над чудовищем: RPG три в ряд",
+      "altName": "Victory over the Monster",
+      "folder": "H:\\Html AI\\рпг три в ряд",
+      "group": "Ранее",
+      "version": "",
+      "note": "",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "playgama": {
+          "note": "одобрена 04.11.2026",
+          "status": "live",
+          "version": ""
+        },
+        "rustore": {
+          "note": "Unity-версия, не опубликована",
+          "status": "draft",
+          "version": ""
+        },
+        "yandex": {
+          "note": "",
+          "status": "draft",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "slova-v-kruge",
+      "name": "Слова в круге",
+      "altName": "WordCircle",
+      "folder": "H:\\Html AI\\WordCyrcle",
+      "group": "Ранее",
+      "version": "",
+      "note": "нарушения 16.7: localStorage, таймеры, эмодзи",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "yandex": {
+          "note": "отклонён 21.10.2026",
+          "status": "rejected",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "sortirovka-cvetov",
+      "name": "Сортировка цветов: Комнаты",
+      "altName": "Color Sorting: Rooms",
+      "folder": "",
+      "group": "Ранее",
+      "version": "",
+      "note": "папку проекта уточнить",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "playgama": {
+          "note": "Published 1/2, статус PROCESSING",
+          "status": "live",
+          "version": ""
+        },
+        "rustore": {
+          "note": "05.09.2026",
+          "status": "live",
+          "version": "0.1.0"
+        },
+        "vk": {
+          "note": "в кабинете «Откл»",
+          "status": "draft",
+          "version": ""
+        },
+        "yandex": {
+          "note": "",
+          "status": "live",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "spasenie-inoplanetyan",
+      "name": "UFO Farm Defense",
+      "altName": "Спасение инопланетян (старое название?)",
+      "folder": "H:\\Html AI\\2 корова нло",
+      "group": "Ранее",
+      "version": "0.3.3",
+      "note": "tower defense, Bridge 2.4.1, 20 ферм, покупки; архив 0.3.3 от 07.11",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "playgama": {
+          "note": "не загружалась",
+          "status": "none",
+          "version": ""
+        },
+        "site": {
+          "note": "мобильные браузеры держат старый index.html в кэше",
+          "status": "live",
+          "version": "0.3.2"
+        }
+      }
+    },
+    {
+      "id": "stena-ognya",
+      "name": "Стена огня",
+      "altName": "Wall of Fire",
+      "folder": "H:\\Html AI\\2 BulletStrormRemake",
+      "group": "Ранее",
+      "version": "",
+      "note": "",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "playgama": {
+          "note": "",
+          "status": "draft",
+          "version": ""
+        },
+        "yandex": {
+          "note": "",
+          "status": "draft",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "stick-fight-arena",
+      "name": "Стик Файт Арена",
+      "altName": "Stick Fight Arena",
+      "folder": "H:\\Html AI\\СтикКомбат",
+      "group": "Ранее",
+      "version": "1.16.1",
+      "note": "1.16.1 собрана, не загружена (глава 2 + «Продолжить за рекламу»)",
+      "updatedAt": "2026-11-09",
+      "platforms": {
+        "playgama": {
+          "note": "playgama.com/game/stick-fight-arena",
+          "status": "live",
+          "version": "1.15.1"
+        },
+        "rustore": {
+          "note": "загружена 04.11.2026, публикация автоматическая",
+          "status": "review",
+          "version": "1.13.2"
+        },
+        "yandex": {
+          "note": "код готов, нужна таблица wins в консоли",
+          "status": "none",
+          "version": ""
+        }
+      }
+    },
+    {
+      "id": "yantarnyy-rubezh",
+      "name": "Янтарный рубеж",
+      "altName": "LikeLike a King",
+      "folder": "H:\\Html AI\\LikeLike a King",
+      "group": "В разработке",
+      "version": "",
+      "note": "Bridge не подключён",
+      "updatedAt": "2026-11-09",
+      "platforms": {}
+    },
+    {
+      "id": "zvezdnyy-pokaz",
+      "name": "Звёздный показ: айдолы против теней",
+      "altName": "",
+      "folder": "H:\\Html AI\\2 неделя\\Звёздный показ айдолы против теней",
+      "group": "Неделя 2",
+      "version": "0.3.1",
+      "note": "0.3.1 (09.11.2026): ритм-битва медленнее, нот больше, 25 с. В 0.3.0: танец на главном, подиум с оценкой участниц, ритм-битва. Нигде не выложена",
+      "updatedAt": "2026-11-09",
+      "platforms": {}
+    }
+  ]
+}

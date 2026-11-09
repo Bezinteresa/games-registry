@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Реестр игр</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Unbounded:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Список игр по группам: таблица на компьютере, карточки и страница игры на телефоне. Только просмотр, данные из games.json на GitHub. */
+:root{
+  --bg:#f3f4f7; --surface:#ffffff; --surface-2:#eceef4; --line:#d8dbe5; --fg:#1b1e2b; --muted:#5f6478; --accent:#4b3fd1;
+  --live:#1d7a4a; --live-bg:#dcf2e5; --old:#9a5b00; --old-bg:#fdecc8; --review:#1f5fb8; --review-bg:#dce8fb;
+  --draft:#4f566b; --draft-bg:#e6e8ef; --rej:#b3261e; --rej-bg:#fbe0dd;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif; --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#12131a; --surface:#1b1d27; --surface-2:#242735; --line:#323648; --fg:#e8e9f0; --muted:#9aa0b6; --accent:#8b80ff;
+  --live:#6fd69c; --live-bg:#163526; --old:#f0b452; --old-bg:#3b2a10; --review:#86b4ff; --review-bg:#17284a;
+  --draft:#b5bbcf; --draft-bg:#2a2d3c; --rej:#ff8a80; --rej-bg:#45191a; color-scheme:dark}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:max(24px,env(safe-area-inset-top,0px));padding-bottom:max(48px,env(safe-area-inset-bottom,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:20px}
+header{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:end;justify-content:space-between}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(22px,3.2vw,30px);margin:0;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:4px 0 0;max-width:60ch}
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;min-width:110px}
+.stat b{display:block;font-family:var(--f-display);font-size:20px;font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);font-size:12px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+input{font:inherit;color:inherit}
+.search{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:7px 10px;width:240px;max-width:100%}
+.search:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.note{color:var(--muted);font-size:13px;margin:0}
+.tablebox{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:900px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+thead th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;background:var(--surface)}
+th.gcol,td.gcol{position:sticky;left:0;background:var(--surface);z-index:1;min-width:230px;max-width:280px;border-right:1px solid var(--line)}
+tr.group td{background:var(--surface-2);padding:2px 10px}
+tr.group td.gcol{background:var(--surface-2)}
+tbody tr:last-child td{border-bottom:0}
+.gname{font-weight:600;overflow-wrap:anywhere}
+.gmeta{color:var(--muted);font-size:12px;overflow-wrap:anywhere}
+.ver{font-family:var(--f-mono);font-size:12px;font-variant-numeric:tabular-nums}
+.cell{display:flex;flex-direction:column;gap:2px;min-width:110px}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600;width:max-content;white-space:nowrap}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.pill.sm{font-size:11px;padding:1px 8px;gap:5px}.pill.sm::before{width:6px;height:6px}
+.s-none{color:var(--muted);border:1px dashed var(--line)}
+.s-draft{color:var(--draft);background:var(--draft-bg)}
+.s-review{color:var(--review);background:var(--review-bg)}
+.s-live{color:var(--live);background:var(--live-bg)}
+.s-old{color:var(--old);background:var(--old-bg)}
+.s-rejected{color:var(--rej);background:var(--rej-bg)}
+.cnote{font-size:11px;color:var(--muted);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.state{padding:28px;text-align:center;color:var(--muted)}
+.gtoggle{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-size:13px;font-weight:500;color:var(--fg);padding:6px 2px;width:100%}
+.gtoggle:focus-visible,.mcard:focus-visible,.back:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+.gtoggle svg{width:16px;height:16px;flex:none;transition:transform .15s}
+.gtoggle[aria-expanded="false"] svg{transform:rotate(-90deg)}
+.gcount{color:var(--muted);font-family:var(--f-body);font-weight:500;font-size:12px}
+.mlist,.detail{display:none}
+.mgroup{margin:10px 0 0}
+.mcard,.prow{box-sizing:border-box;display:grid;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0}
+.mcard{all:unset;box-sizing:border-box;display:grid;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;min-width:0}
+.mtop{display:flex;justify-content:space-between;gap:10px;align-items:baseline;min-width:0}
+.mtop b{font-weight:600;overflow-wrap:anywhere;min-width:0}
+.mchips{display:flex;flex-wrap:wrap;gap:4px}
+.mempty{color:var(--muted);font-size:13px;margin:0}
+.dhead{display:flex;gap:12px;align-items:center;min-width:0}
+.dhead h2{font-family:var(--f-display);font-size:19px;margin:0;overflow-wrap:anywhere;min-width:0}
+.back{all:unset;box-sizing:border-box;flex:none;cursor:pointer;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--fg)}
+.back svg{width:22px;height:22px}
+.dmeta{display:grid;gap:2px;color:var(--muted);font-size:13px;overflow-wrap:anywhere}
+.prow{grid-template-columns:1fr auto;gap:4px 12px;align-items:center}
+.pname{font-weight:600}
+.pnote{grid-column:1/-1;color:var(--muted);font-size:13px;overflow-wrap:anywhere}
+body.detail-open header,body.detail-open .toolbar,body.detail-open .tablebox,body.detail-open #foot,body.detail-open .mlist{display:none}
+body.detail-open .detail{display:grid;gap:10px}
+@media (max-width:700px){
+  .tablebox,#foot,.legend{display:none}
+  .mlist{display:grid;gap:8px}
+  body{padding-top:max(16px,env(safe-area-inset-top,0px))}
+  .stat{min-width:0;flex:1 1 calc(50% - 8px)}
+  .search{width:100%}
+}
+@media (prefers-reduced-motion:reduce){.gtoggle svg{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Реестр игр</h1>
+      <p class="sub">Где выложена текущая версия каждой игры. <span id="upd"></span></p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+  <div class="toolbar">
+    <input class="search" id="q" type="search" placeholder="Поиск по названию" aria-label="Поиск">
+    <div class="legend" id="legend"></div>
+  </div>
+  <div class="tablebox">
+    <table>
+      <thead><tr id="headRow"></tr></thead>
+      <tbody id="body"><tr><td class="state" colspan="8">Загружаю список игр…</td></tr></tbody>
+    </table>
+  </div>
+  <div class="mlist" id="mlist"><p class="mempty">Загружаю список игр…</p></div>
+  <section class="detail" id="detail"></section>
+  <p class="note" id="foot">«Старая версия» — на площадке опубликована не та версия, что указана как текущая у игры.</p>
+</div>
+<script>
+// Данные: games.json из репозитория Bezinteresa/games-registry. Рядом лежащий games.json — запасной вариант.
+const SOURCES=['https://raw.githubusercontent.com/Bezinteresa/games-registry/main/games.json','games.json'];
+const STATUS={none:'Не выложена',draft:'Черновик',review:'На модерации',live:'Опубликована',rejected:'Отклонена'};
+const CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
+const BACK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+let PLATFORMS=[], games=[], query='', openId=null, cameFromList=false, collapsed=new Set();
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+try{collapsed=new Set(JSON.parse(localStorage.getItem('collapsedGroups')||'[]'))}catch{}
+
+function effective(g,pid){
+  const p=(g.platforms||{})[pid]||{}; const st=p.status||'none';
+  if(st==='live'&&p.version&&g.version&&p.version!==g.version)return{cls:'old',label:'Старая версия',p};
+  return{cls:st,label:STATUS[st]||st,p};
+}
+const isOpen=k=>!collapsed.has(k)||!!query.trim();
+function groupBtn(k,n){return `<button class="gtoggle" type="button" data-group="${esc(k)}" aria-expanded="${isOpen(k)}">${CHEV}<span>${esc(k)}</span><span class="gcount">${n}</span></button>`}
+function toggleGroup(k){collapsed.has(k)?collapsed.delete(k):collapsed.add(k);try{localStorage.setItem('collapsedGroups',JSON.stringify([...collapsed]))}catch{};render()}
+function readHash(){const h=location.hash.slice(1);openId=h.startsWith('g-')?h.slice(2):null}
+window.addEventListener('hashchange',()=>{readHash();render();window.scrollTo(0,0)});
+readHash();
+
+function render(){
+  const q=query.trim().toLowerCase();
+  const list=games.filter(g=>!q||[g.name,g.altName].some(s=>(s||'').toLowerCase().includes(q)));
+  const groups=new Map();
+  for(const g of list){const k=g.group||'Без группы';if(!groups.has(k))groups.set(k,[]);groups.get(k).push(g)}
+  const keys=[...groups.keys()].sort((a,b)=>a==='Без группы'?1:b==='Без группы'?-1:b.localeCompare(a,'ru',{numeric:true}));
+  for(const k of keys)groups.get(k).sort((a,b)=>(a.name||'').localeCompare(b.name||'','ru'));
+  // таблица
+  let t='';
+  for(const k of keys){
+    t+=`<tr class="group"><td class="gcol">${groupBtn(k,groups.get(k).length)}</td><td colspan="${PLATFORMS.length+1}"></td></tr>`;
+    if(!isOpen(k))continue;
+    for(const g of groups.get(k)){
+      t+=`<tr><td class="gcol"><div class="gname">${esc(g.name)}</div>${g.altName?`<div class="gmeta">${esc(g.altName)}</div>`:''}</td><td class="ver">${esc(g.version||'—')}</td>`;
+      for(const p of PLATFORMS){const e=effective(g,p.id);
+        t+=`<td><div class="cell"><span class="pill s-${e.cls}">${esc(e.label)}</span>${e.p.version&&e.p.status!=='none'?`<span class="ver">${esc(e.p.version)}</span>`:''}${e.p.note?`<span class="cnote" title="${esc(e.p.note)}">${esc(e.p.note)}</span>`:''}</div></td>`}
+      t+='</tr>';
+    }
+  }
+  $('body').innerHTML=t||`<tr><td class="state" colspan="${PLATFORMS.length+2}">${games.length?'Ничего не найдено.':'Игр пока нет.'}</td></tr>`;
+  // карточки
+  let m='';
+  for(const k of keys){
+    m+=`<div class="mgroup">${groupBtn(k,groups.get(k).length)}</div>`;
+    if(!isOpen(k))continue;
+    for(const g of groups.get(k)){
+      const chips=PLATFORMS.map(p=>{const e=effective(g,p.id);return e.cls==='none'?'':`<span class="pill sm s-${e.cls}">${esc(p.name)}</span>`}).join('');
+      m+=`<button class="mcard" type="button" data-open="${esc(g.id)}"><span class="mtop"><b>${esc(g.name)}</b><span class="ver">${esc(g.version||'')}</span></span><span class="mchips">${chips||'<span class="mempty">Нигде не выложена</span>'}</span></button>`;
+    }
+  }
+  $('mlist').innerHTML=m||`<p class="mempty">${games.length?'Ничего не найдено.':'Игр пока нет.'}</p>`;
+  renderDetail(); stats();
+}
+function renderDetail(){
+  const g=openId&&games.find(x=>x.id===openId);
+  document.body.classList.toggle('detail-open',!!openId);
+  if(!openId){$('detail').innerHTML='';return}
+  let h=`<div class="dhead"><button class="back" type="button" id="backBtn" aria-label="Назад к списку">${BACK}</button><h2>${g?esc(g.name):'Игра не найдена'}</h2></div>`;
+  if(g){
+    h+=`<div class="dmeta">${g.altName?`<span>${esc(g.altName)}</span>`:''}<span>Текущая версия: <span class="ver">${esc(g.version||'не указана')}</span></span>${g.group?`<span>Группа: ${esc(g.group)}</span>`:''}${g.note?`<span>${esc(g.note)}</span>`:''}</div>`;
+    for(const p of PLATFORMS){const e=effective(g,p.id);
+      h+=`<div class="prow"><span class="pname">${esc(p.name)}</span><span class="pill s-${e.cls}">${esc(e.label)}</span>${e.p.version&&e.p.status!=='none'?`<span class="pnote">Версия на площадке: <span class="ver">${esc(e.p.version)}</span></span>`:''}${e.p.note?`<span class="pnote">${esc(e.p.note)}</span>`:''}</div>`}
+  }
+  $('detail').innerHTML=h;
+  $('backBtn').onclick=()=>{if(cameFromList){cameFromList=false;history.back()}else location.hash='list'};
+}
+function stats(){
+  let live=0,old=0,review=0;
+  for(const g of games)for(const p of PLATFORMS){const c=effective(g,p.id).cls;if(c==='live')live++;else if(c==='old')old++;else if(c==='review')review++}
+  $('stats').innerHTML=[[games.length,'игр'],[live,'актуальных публикаций'],[old,'нужно обновить'],[review,'на модерации']].map(([n,t])=>`<div class="stat"><b>${n}</b><span>${t}</span></div>`).join('');
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('.gtoggle');if(t){toggleGroup(t.dataset.group);return}
+  const c=e.target.closest('.mcard');if(c){cameFromList=true;location.hash='g-'+c.dataset.open}
+});
+$('q').addEventListener('input',e=>{query=e.target.value;render()});
+
+(async()=>{
+  for(const url of SOURCES){
+    try{
+      const r=await fetch(url+(url.startsWith('http')?'?t='+Date.now():''),{cache:'no-store'});
+      if(!r.ok)continue;
+      const data=await r.json();
+      PLATFORMS=data.platforms||[]; games=data.games||[];
+      $('headRow').innerHTML='<th class="gcol">Игра</th><th>Версия</th>'+PLATFORMS.map(p=>`<th>${esc(p.name)}</th>`).join('');
+      $('legend').innerHTML=[...Object.entries(STATUS).map(([id,n])=>`<span class="pill s-${id}">${esc(n)}</span>`),'<span class="pill s-old">Старая версия</span>'].join('');
+      if(data.updated)$('upd').textContent='Обновлено: '+data.updated.split('-').reverse().join('.')+'.';
+      render(); return;
+    }catch{}
+  }
+  const msg='Не удалось загрузить список игр. Проверьте интернет и обновите страницу.';
+  $('body').innerHTML=`<tr><td class="state" colspan="8">${msg}</td></tr>`;$('mlist').innerHTML=`<p class="mempty">${msg}</p>`;
+})();
+</script>
+</body>
+</html>
