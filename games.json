@@ -507,14 +507,14 @@
       "altName": "Endless Bastion",
       "folder": "H:\\Html AI\\2 неделя\\2 защита замка",
       "group": "Неделя 2",
-      "version": "0.5.0",
-      "note": "Этапы 1–7 собраны, графика заглушками (art/ART_TODO.md, 17 шт.), обложки временные; архив release/endless-bastion-0.5.0.zip (6,7 МБ, Bridge 2.4.1)",
+      "version": "0.5.1",
+      "note": "0.5.1: добавлен сброс прогресса. Графика заглушками (art/ART_TODO.md, 17 шт.), обложки временные; архив release/endless-bastion-0.5.1.zip",
       "updatedAt": "2026-11-09",
       "platforms": {
         "playgama": {
           "status": "none",
           "version": "",
-          "note": "0.5.0 ждёт загрузки владельцем"
+          "note": "0.5.1 ждёт загрузки владельцем (после картинок)"
         },
         "yandex": {
           "status": "none",
