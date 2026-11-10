@@ -336,9 +336,9 @@
           "version": ""
         },
         "rustore": {
-          "note": "Unity-версия для Android, опубликована (сборка 5)",
+          "note": "Unity-версия для Android, опубликована 10.11.2026; следующая 1.0.1 — черновик",
           "status": "live",
-          "version": "1.0.1"
+          "version": "1.0.0"
         },
         "yandex": {
           "note": "",
