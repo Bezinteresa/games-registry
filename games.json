@@ -532,17 +532,17 @@
     {
       "id": "volshebnyy-ogorod",
       "name": "Волшебный огород",
-      "altName": "Magic Garden (уточнить)",
+      "altName": "Magic Garden",
       "folder": "H:\\Html AI\\2 неделя\\2 волшебный огород",
       "group": "Неделя 2",
-      "version": "0.3.0",
-      "note": "0.3.0: новая петля — садовница на живом участке, заказы, уровни, ярмарка, таблица лидеров. Графика заглушками. Архив release/magic-garden-0.3.0.zip",
+      "version": "0.3.1",
+      "note": "0.3.x: садовница на живом участке, заказы, уровни, ярмарка, лидерборд best_crop. Графика заглушками. Архив release/magic-garden-0.3.1.zip",
       "updatedAt": "2026-11-10",
       "platforms": {
         "playgama": {
-          "status": "none",
+          "status": "draft",
           "version": "",
-          "note": "0.3.0 ждёт загрузки владельцем"
+          "note": "id cmway1rng0bw3ks0hk7bwo397, лидерборд best_crop; архив 0.3.1 ждёт загрузки владельцем"
         }
       }
     }
