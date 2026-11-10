@@ -407,17 +407,17 @@
     {
       "id": "spasenie-inoplanetyan",
       "name": "UFO Farm Defense",
-      "altName": "Спасение инопланетян (старое название?)",
+      "altName": "Спасение инопланетян / Saving the Aliens",
       "folder": "H:\\Html AI\\2 корова нло",
       "group": "Ранее",
-      "version": "0.4.0",
+      "version": "0.4.3",
       "note": "0.4.0 (09.11.2026): аналитика рекламы и покупок, ×2 добычи за рекламу, «Пока вас не было», ежедневная награда на 7 дней",
-      "updatedAt": "2026-11-09",
+      "updatedAt": "2026-11-10",
       "platforms": {
         "playgama": {
-          "note": "не загружалась",
-          "status": "none",
-          "version": ""
+          "status": "draft",
+          "version": "",
+          "note": "id cmwawdtge09bvkx0hb44i0eyw; архив 0.4.3 ждёт загрузки владельцем"
         },
         "site": {
           "note": "мобильные браузеры держат старый index.html в кэше",
