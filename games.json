@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-09",
+  "updated": "2026-11-10",
   "platforms": [
     {
       "id": "playgama",
@@ -163,27 +163,27 @@
       "altName": "Сальто-Бросок",
       "folder": "H:\\Html AI\\WrestleJumpRemaster",
       "group": "Ранее",
-      "version": "1.3.0",
-      "note": "1.3.0: лидерборд по победам; покупки coins_500/1500/4000",
-      "updatedAt": "2026-11-09",
+      "version": "1.3.1",
+      "note": "1.3.1: ползунки громкости музыки и звуков, музыка по умолчанию 50%",
+      "updatedAt": "2026-11-10",
       "platforms": {
         "ok": {
-          "note": "та же сборка через OK ID; группа ok.ru/group/70000060943888",
+          "note": "сборка 1.3.1 готова; группа ok.ru/group/70000060943888",
           "status": "none",
           "version": ""
         },
         "playgama": {
-          "note": "песочница playgama.ai/play/7s7twzof2l65tr; QA Tool не пройден",
+          "note": "песочница 1.3.0; архив 1.3.1 (release/flip-slam-1.3.1.zip) не загружен; QA Tool не пройден",
           "status": "draft",
           "version": "1.3.0"
         },
         "vk": {
-          "note": "APP_ID 54885372, в кабинете «Откл»; группа vk.ru/club243098411",
+          "note": "APP_ID 54885372, в кабинете «Откл»; сборка 1.3.1 готова",
           "status": "draft",
           "version": ""
         },
         "yandex": {
-          "note": "черновик создан 09.11.2026",
+          "note": "черновик создан 09.11.2026; архив 1.3.1 готов (Store/yandex)",
           "status": "draft",
           "version": ""
         }
