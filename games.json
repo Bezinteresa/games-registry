@@ -572,9 +572,9 @@
       "updatedAt": "2026-11-10",
       "platforms": {
         "playgama": {
-          "status": "none",
+          "status": "draft",
           "version": "",
-          "note": "карточки в консоли нет"
+          "note": "id cmwb02t9e0f7ukx0h5p7xdvx5, форма заполнена; архив и обложки не загружены, ждём publicToken мультиплеера от владельца"
         }
       }
     }
