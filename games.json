@@ -196,14 +196,14 @@
       "altName": "",
       "folder": "H:\\Html AI\\ForestSurvival99",
       "group": "В разработке",
-      "version": "0.1.0",
-      "note": "Готовим к турниру Playgama по сетевым играм: онлайн-кооператив через Bridge Multiplayer. Bridge 2.4.1, сохранения только через Bridge",
+      "version": "0.2.0",
+      "note": "0.2.0: первая версия для площадки. Онлайн до 4 игроков через Bridge Multiplayer, en/ru. Турнир «Bring the Whole Squad», подача до 24.11 18:00 PT",
       "updatedAt": "2026-11-10",
       "platforms": {
         "playgama": {
           "status": "draft",
           "version": "",
-          "note": "карточка cmwau5qvx067zkx0huo1si4eu создана 10.11.2026, архива нет"
+          "note": "карточка cmwau5qvx067zkx0huo1si4eu, форма заполнена, обложки временные; архив release/forest-survival-0.2.0.zip ждёт загрузки владельцем"
         }
       }
     },
