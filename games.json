@@ -196,10 +196,16 @@
       "altName": "",
       "folder": "H:\\Html AI\\ForestSurvival99",
       "group": "В разработке",
-      "version": "",
-      "note": "кооп-выживание, задача T040b",
-      "updatedAt": "2026-11-09",
-      "platforms": {}
+      "version": "0.1.0",
+      "note": "Готовим к турниру Playgama по сетевым играм: онлайн-кооператив через Bridge Multiplayer. Bridge 2.4.1, сохранения только через Bridge",
+      "updatedAt": "2026-11-10",
+      "platforms": {
+        "playgama": {
+          "status": "draft",
+          "version": "",
+          "note": "карточка cmwau5qvx067zkx0huo1si4eu создана 10.11.2026, архива нет"
+        }
+      }
     },
     {
       "id": "muravi-nosilschiki",
