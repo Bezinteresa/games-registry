@@ -211,14 +211,14 @@
       "altName": "",
       "folder": "H:\\Html AI\\ForestSurvival99",
       "group": "В разработке",
-      "version": "0.2.2",
-      "note": "0.2.2: наряды за покупки ($0.99/$0.99/$1.99, только внешний вид), лидерборд best_run. Онлайн до 4 игроков (Bridge Multiplayer), en/ru. Турнир «Bring the Whole Squad», подача до 24.11 18:00 PT",
+      "version": "0.2.5",
+      "note": "0.2.5: плавное движение других игроков, ники, повторный вход в комнату, копирование кода комнаты, камера мышью на ПК. 0.2.2: наряды за покупки, лидерборд best_run. Онлайн до 4 игроков. Турнир «Bring the Whole Squad», подача до 24.11 18:00 PT",
       "updatedAt": "2026-11-10",
       "platforms": {
         "playgama": {
           "status": "draft",
-          "version": "0.2.2",
-          "note": "песочница playgama.ai/play/oyx3b23chnzvv5 (10.11.2026), карточка cmwau5qvx067zkx0huo1si4eu, архив прошёл проверку, обложки загружены; в модерацию не отправлено"
+          "version": "0.2.5",
+          "note": "песочница playgama.ai/play/oyx3b23chnzvv5 (0.2.5, 10.11.2026), карточка cmwau5qvx067zkx0huo1si4eu DRAFT; в модерацию не отправлено"
         }
       }
     },
