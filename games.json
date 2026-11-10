@@ -95,14 +95,14 @@
       "altName": "Vampur Survival (папка)",
       "folder": "H:\\Html AI\\2 Vampur  Survival",
       "group": "Ранее",
-      "version": "0.2.13",
-      "note": "0.2.13 собрана (Bridge 2.4.1). Ветки claude/yandex-build-c4ab48 (Яндекс 0.2.7) и claude/rustore-build-df901a (Android) не влиты в main",
+      "version": "0.2.14",
+      "note": "0.2.14: пошаговое обучение, автотест обучения, тесты и боты баланса. Ветки claude/yandex-build-c4ab48 (Яндекс 0.2.7) и claude/rustore-build-df901a (Android) не влиты в main. Архив release/bogatyr-survivors-0.2.14.zip",
       "updatedAt": "2026-11-10",
       "platforms": {
         "playgama": {
           "status": "draft",
           "version": "0.2.12",
-          "note": "песочница playgama.ai/play/rmvmdzilcxib4e, заявка cmw0if6xl0w2mlf0hzsng2gcf; QA PASSED для 0.2.6 и 0.2.12; 0.2.13 ждёт загрузки, в каталог не отправлено"
+          "note": "песочница playgama.ai/play/rmvmdzilcxib4e, заявка cmw0if6xl0w2mlf0hzsng2gcf; QA PASSED для 0.2.6 и 0.2.12; 0.2.14 ждёт загрузки, в каталог не отправлено"
         },
         "yandex": {
           "status": "none",
