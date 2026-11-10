@@ -471,12 +471,12 @@
       "altName": "Stick Fight Arena",
       "folder": "H:\\Html AI\\СтикКомбат",
       "group": "Ранее",
-      "version": "1.16.1",
-      "note": "1.16.1 собрана, не загружена (глава 2 + «Продолжить за рекламу»)",
-      "updatedAt": "2026-11-09",
+      "version": "1.17.0",
+      "note": "1.17.0: новогодняя ветка сюжета с аксессуарами бойцов; включает 1.16.x (глава 2, «Продолжить за рекламу»). Архив release/stick-fight-arena-1.17.0.zip",
+      "updatedAt": "2026-11-10",
       "platforms": {
         "playgama": {
-          "note": "playgama.com/game/stick-fight-arena",
+          "note": "playgama.com/game/stick-fight-arena; 1.17.0 ждёт загрузки владельцем",
           "status": "live",
           "version": "1.15.1"
         },
