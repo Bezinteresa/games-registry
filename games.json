@@ -92,17 +92,32 @@
     {
       "id": "bogatyr-survivors",
       "name": "Bogatyr Survivors",
-      "altName": "",
+      "altName": "Vampur Survival (папка)",
       "folder": "H:\\Html AI\\2 Vampur  Survival",
       "group": "Ранее",
-      "version": "",
-      "note": "",
-      "updatedAt": "2026-11-09",
+      "version": "0.2.13",
+      "note": "0.2.13 собрана (Bridge 2.4.1). Ветки claude/yandex-build-c4ab48 (Яндекс 0.2.7) и claude/rustore-build-df901a (Android) не влиты в main",
+      "updatedAt": "2026-11-10",
       "platforms": {
         "playgama": {
-          "note": "",
           "status": "draft",
-          "version": ""
+          "version": "0.2.12",
+          "note": "песочница playgama.ai/play/rmvmdzilcxib4e, заявка cmw0if6xl0w2mlf0hzsng2gcf; QA PASSED для 0.2.6 и 0.2.12; 0.2.13 ждёт загрузки, в каталог не отправлено"
+        },
+        "yandex": {
+          "status": "none",
+          "version": "",
+          "note": "в консоли Яндекса (снимок 09.11) игры нет; сборка 0.2.7 в ветке"
+        },
+        "rustore": {
+          "status": "none",
+          "version": "",
+          "note": "уточнить; сборка в ветке"
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "dom18games.ru, без Bridge; версия — уточнить"
         }
       }
     },
