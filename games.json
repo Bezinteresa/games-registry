@@ -567,14 +567,14 @@
       "altName": "бывш. Squad Anti-Terror",
       "folder": "H:\\Html AI\\2 неделя\\2 SquadAntiTerror",
       "group": "Неделя 2",
-      "version": "0.1.0",
-      "note": "Сетевой шутер для челленджа Playgama «Bring the Whole Squad». Онлайн проверен только на dev-заглушке; нужен publicToken Bridge SaaS (Multiplayer). Архив release/freedom-squad-0.1.0.zip",
+      "version": "0.2.0",
+      "note": "0.2.0: 3 карты (Особняк, Ангар, Пески); онлайн проверен на сервере Playgama с localhost. Сетевой шутер для челленджа «Bring the Whole Squad». Архив release/freedom-squad-0.2.0.zip",
       "updatedAt": "2026-11-10",
       "platforms": {
         "playgama": {
           "status": "draft",
           "version": "",
-          "note": "id cmwb02t9e0f7ukx0h5p7xdvx5, название в консоли обновлено; архив и обложки не загружены, ждём publicToken мультиплеера"
+          "note": "id cmwb02t9e0f7ukx0h5p7xdvx5, токен SaaS вписан; архив 0.2.0 и обложки ждут загрузки владельцем"
         }
       }
     }
