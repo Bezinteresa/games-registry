@@ -535,14 +535,14 @@
       "altName": "Magic Garden (уточнить)",
       "folder": "H:\\Html AI\\2 неделя\\2 волшебный огород",
       "group": "Неделя 2",
-      "version": "0.1.0",
-      "note": "Этап 1, каркас. План 02-волшебный-огород.md; Vite + Vue + Canvas, Bridge 2.4.1",
+      "version": "0.2.0",
+      "note": "0.2.0: игровой цикл, мета, реклама, звук; графика заглушками. Архив release/magic-garden-0.2.0.zip (3,8 МБ, Bridge 2.4.1)",
       "updatedAt": "2026-11-10",
       "platforms": {
         "playgama": {
           "status": "none",
           "version": "",
-          "note": ""
+          "note": "0.2.0 ждёт загрузки владельцем"
         }
       }
     }
