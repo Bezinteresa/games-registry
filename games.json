@@ -328,17 +328,17 @@
       "group": "Ранее",
       "version": "",
       "note": "",
-      "updatedAt": "2026-11-09",
+      "updatedAt": "2026-11-10",
       "platforms": {
         "playgama": {
-          "note": "одобрена 04.11.2026",
+          "note": "одобрена 04.11.2026; веб, коммит c4af46a (оба акта)",
           "status": "live",
           "version": ""
         },
         "rustore": {
-          "note": "Unity-версия, не опубликована",
-          "status": "draft",
-          "version": ""
+          "note": "Unity-версия для Android, опубликована (сборка 5)",
+          "status": "live",
+          "version": "1.0.1"
         },
         "yandex": {
           "note": "",
