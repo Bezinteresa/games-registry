@@ -137,6 +137,23 @@ body.can-edit .gname:hover{color:var(--accent)}
 .mcard .mrow{display:flex;gap:12px;align-items:center;min-width:0}
 .mcard .mrow>span:not(.gi){display:grid;gap:8px;min-width:0;flex:1}
 .iconrow{display:flex;gap:12px;align-items:center}
+/* очередь выкладки и колонка VK / OK */
+td .cell+.cell{margin-top:6px}
+.queue{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:10px;min-width:0}
+.qhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.qhead h2{font-family:var(--f-display);font-size:16px;font-weight:700;margin:0}
+.qlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:8px}
+.qcard{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:8px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);min-width:0}
+.qcard:hover{border-color:var(--accent)}
+.qcard:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.qtop{display:flex;gap:10px;align-items:center;min-width:0}
+.qtop>span:last-child{display:grid;gap:2px;min-width:0;flex:1}
+.qnum{flex:none;font-family:var(--f-display);font-weight:700;font-size:15px;color:var(--accent);min-width:28px;text-align:center}
+.qname{font-weight:600;overflow-wrap:anywhere}
+.qline{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.qnote{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.qbadge{display:inline-block;margin-left:6px;font-size:11px;font-weight:700;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:0 6px;vertical-align:1px;white-space:nowrap}
+body.detail-open .queue{display:none}
 @media (max-width:640px){.panel{top:auto;height:min(88vh,680px);width:100%;border-left:0;border-top:1px solid var(--line);border-radius:14px 14px 0 0;padding-bottom:max(20px,env(safe-area-inset-bottom,0px))}}
 </style>
 </head>
@@ -149,6 +166,7 @@ body.can-edit .gname:hover{color:var(--accent)}
     </div>
     <div class="stats" id="stats"></div>
   </header>
+  <section class="queue" id="queue" aria-label="Очередь выкладки"></section>
   <div class="toolbar">
     <input class="search" id="q" type="search" placeholder="Поиск по названию" aria-label="Поиск">
     <button class="btn edit-only primary" type="button" id="addBtn">Добавить игру</button>
@@ -174,7 +192,7 @@ const SOURCES=['https://raw.githubusercontent.com/Bezinteresa/games-registry/mai
 const STATUS={none:'Не выложена',draft:'Черновик',review:'На модерации',live:'Опубликована',rejected:'Отклонена'};
 const CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 const BACK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
-let PLATFORMS=[], GROUPS=[], games=[], query='', openId=null, cameFromList=false, collapsed=new Set(), savedCollapse=null;
+let PLATFORMS=[], COLS=[], GROUPS=[], games=[], query='', openId=null, cameFromList=false, collapsed=new Set(), savedCollapse=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 try{const s=localStorage.getItem('collapsedGroups');if(s){savedCollapse=JSON.parse(s);collapsed=new Set(savedCollapse)}}catch{}
@@ -183,6 +201,37 @@ function effective(g,pid){
   const p=(g.platforms||{})[pid]||{}; const st=p.status||'none';
   if(st==='live'&&p.version&&g.version&&p.version!==g.version)return{cls:'old',label:'Старая версия',p};
   return{cls:st,label:STATUS[st]||st,p};
+}
+// Колонки таблицы: VK и OK показываются в одной колонке «VK / OK», в данных остаются раздельными.
+function buildCols(){
+  const ids=PLATFORMS.map(p=>p.id); COLS=[];
+  for(const p of PLATFORMS){
+    if(p.id==='ok'&&ids.includes('vk'))continue;
+    if(p.id==='vk'&&ids.includes('ok'))COLS.push({name:'VK / OK',ids:['vk','ok'],short:['VK','OK']});
+    else COLS.push({name:p.name,ids:[p.id],short:[p.name]});
+  }
+}
+function same(g,ids){
+  const v=id=>{const p=(g.platforms||{})[id]||{};return [p.status||'none',p.version||'',p.note||''].join('\u0001')};
+  return ids.every(id=>v(id)===v(ids[0]));
+}
+// части колонки: [[ids, подпись]] — одна часть, если у VK и OK всё одинаково
+function colParts(g,c){return c.ids.length===1||same(g,c.ids)?[[c.ids,c.ids.length>1?c.short.join('/'):c.name]]:c.ids.map((id,i)=>[[id],c.short[i]])}
+function colChips(g,withNone){
+  let out='';
+  for(const c of COLS)for(const [ids,label] of colParts(g,c)){const e=effective(g,ids[0]);if(e.cls==='none'&&!withNone)continue;
+    out+=`<span class="pill sm s-${e.cls}" title="${esc(label+': '+e.label)}">${esc(label)}</span>`}
+  return out;
+}
+const qOrder=g=>Number(g.next?.order)||999;
+const qBadge=g=>g.next?`<span class="qbadge" title="Очередь выкладки">№${esc(g.next.order||'?')}</span>`:'';
+function qState(g){return g.next?.ready?'<span class="pill sm s-live">Подготовлена</span>':'<span class="pill sm s-old">Не подготовлена</span>'}
+function renderQueue(){
+  const q=games.filter(g=>g.next).sort((a,b)=>qOrder(a)-qOrder(b)||(a.name||'').localeCompare(b.name||'','ru'));
+  let h=`<div class="qhead"><h2>Очередь выкладки</h2><span class="gcount">${q.length?`игр: ${q.length}, подготовлено: ${q.filter(g=>g.next.ready).length}`:''}</span></div>`;
+  if(!q.length)h+='<p class="hint">Пока пусто. Отметьте игру в правке («Изменить данные игры» → «Очередь выкладки») или попросите в чате реестра.</p>';
+  else h+='<div class="qlist">'+q.map(g=>`<button class="qcard" type="button" data-open="${esc(g.id)}"><span class="qtop"><span class="qnum">№${esc(g.next.order||'?')}</span>${iconHtml(g)}<span><span class="qname">${esc(g.name)} <span class="ver">${esc(g.version||'')}</span></span><span class="qline">${qState(g)}</span></span></span>${g.next.note?`<span class="qnote">${esc(g.next.note)}</span>`:''}<span class="mchips">${colChips(g,true)}</span></button>`).join('')+'</div>';
+  $('queue').innerHTML=h;
 }
 const RAW='https://raw.githubusercontent.com/Bezinteresa/games-registry/main/';
 function iconHtml(g,size=''){
@@ -210,17 +259,18 @@ function render(){
   // таблица
   let t='';
   for(const k of keys){
-    t+=`<tr class="group"><td class="gcol">${groupBtn(k,groups.get(k).length)}</td><td colspan="${PLATFORMS.length+1}"></td></tr>`;
+    t+=`<tr class="group"><td class="gcol">${groupBtn(k,groups.get(k).length)}</td><td colspan="${COLS.length+1}"></td></tr>`;
     if(!isOpen(k))continue;
-    if(!groups.get(k).length){t+=`<tr><td class="gcol gmeta">В группе пока нет игр.</td><td colspan="${PLATFORMS.length+1}"></td></tr>`;continue}
+    if(!groups.get(k).length){t+=`<tr><td class="gcol gmeta">В группе пока нет игр.</td><td colspan="${COLS.length+1}"></td></tr>`;continue}
     for(const g of groups.get(k)){
-      t+=`<tr><td class="gcol"><div class="gwrap">${iconHtml(g)}<div><div class="gname" data-gedit="${esc(g.id)}">${esc(g.name)}</div>${g.altName?`<div class="gmeta">${esc(g.altName)}</div>`:''}</div></div></td><td class="ver">${esc(g.version||'—')}</td>`;
-      for(const p of PLATFORMS){const e=effective(g,p.id);
-        t+=`<td><div class="cell" data-game="${esc(g.id)}" data-plat="${esc(p.id)}"><span class="pill s-${e.cls}">${esc(e.label)}</span>${e.p.version&&e.p.status!=='none'?`<span class="ver">${esc(e.p.version)}</span>`:''}${e.p.note?`<span class="cnote" title="${esc(e.p.note)}">${esc(e.p.note)}</span>`:''}</div></td>`}
+      t+=`<tr><td class="gcol"><div class="gwrap">${iconHtml(g)}<div><div class="gname" data-gedit="${esc(g.id)}">${esc(g.name)}${qBadge(g)}</div>${g.altName?`<div class="gmeta">${esc(g.altName)}</div>`:''}</div></div></td><td class="ver">${esc(g.version||'—')}</td>`;
+      for(const c of COLS){
+        t+='<td>'+colParts(g,c).map(([ids,label])=>{const e=effective(g,ids[0]);const pre=c.ids.length>1&&ids.length===1?esc(label)+' · ':'';
+          return `<div class="cell" data-game="${esc(g.id)}" data-plat="${esc(ids.join(','))}"><span class="pill s-${e.cls}">${pre}${esc(e.label)}</span>${e.p.version&&e.p.status!=='none'?`<span class="ver">${esc(e.p.version)}</span>`:''}${e.p.note?`<span class="cnote" title="${esc(e.p.note)}">${esc(e.p.note)}</span>`:''}</div>`}).join('')+'</td>'}
       t+='</tr>';
     }
   }
-  $('body').innerHTML=t||`<tr><td class="state" colspan="${PLATFORMS.length+2}">${games.length?'Ничего не найдено.':'Игр пока нет.'}</td></tr>`;
+  $('body').innerHTML=t||`<tr><td class="state" colspan="${COLS.length+2}">${games.length?'Ничего не найдено.':'Игр пока нет.'}</td></tr>`;
   // карточки
   let m='';
   for(const k of keys){
@@ -228,12 +278,12 @@ function render(){
     if(!isOpen(k))continue;
     if(!groups.get(k).length){m+='<p class="mempty">В группе пока нет игр.</p>';continue}
     for(const g of groups.get(k)){
-      const chips=PLATFORMS.map(p=>{const e=effective(g,p.id);return e.cls==='none'?'':`<span class="pill sm s-${e.cls}">${esc(p.name)}</span>`}).join('');
-      m+=`<button class="mcard" type="button" data-open="${esc(g.id)}"><span class="mrow">${iconHtml(g,'md')}<span><span class="mtop"><b>${esc(g.name)}</b><span class="ver">${esc(g.version||'')}</span></span><span class="mchips">${chips||'<span class="mempty">Нигде не выложена</span>'}</span></span></span></button>`;
+      const chips=colChips(g,false);
+      m+=`<button class="mcard" type="button" data-open="${esc(g.id)}"><span class="mrow">${iconHtml(g,'md')}<span><span class="mtop"><b>${esc(g.name)}${qBadge(g)}</b><span class="ver">${esc(g.version||'')}</span></span><span class="mchips">${chips||'<span class="mempty">Нигде не выложена</span>'}</span></span></span></button>`;
     }
   }
   $('mlist').innerHTML=m||`<p class="mempty">${games.length?'Ничего не найдено.':'Игр пока нет.'}</p>`;
-  renderDetail(); stats();
+  renderQueue(); renderDetail(); stats();
 }
 function renderDetail(){
   const g=openId&&games.find(x=>x.id===openId);
@@ -242,8 +292,9 @@ function renderDetail(){
   let h=`<div class="dhead"><button class="back" type="button" id="backBtn" aria-label="Назад к списку">${BACK}</button>${g?iconHtml(g,'md'):''}<h2>${g?esc(g.name):'Игра не найдена'}</h2></div>`;
   if(g){
     h+=`<div class="dmeta">${g.altName?`<span>${esc(g.altName)}</span>`:''}<span>Текущая версия: <span class="ver">${esc(g.version||'не указана')}</span></span>${g.group?`<span>Группа: ${esc(g.group)}</span>`:''}${g.note?`<span>${esc(g.note)}</span>`:''}</div>`;
-    for(const p of PLATFORMS){const e=effective(g,p.id);
-      h+=`<div class="prow" data-game="${esc(g.id)}" data-plat="${esc(p.id)}"><span class="pname">${esc(p.name)}</span><span class="pill s-${e.cls}">${esc(e.label)}</span>${e.p.version&&e.p.status!=='none'?`<span class="pnote">Версия на площадке: <span class="ver">${esc(e.p.version)}</span></span>`:''}${e.p.note?`<span class="pnote">${esc(e.p.note)}</span>`:''}</div>`}
+    if(g.next)h+=`<div class="prow"><span class="pname">Очередь выкладки: №${esc(g.next.order||'?')}</span>${qState(g)}${g.next.note?`<span class="pnote">${esc(g.next.note)}</span>`:''}</div>`;
+    for(const c of COLS)for(const [ids,label] of colParts(g,c)){const e=effective(g,ids[0]);const pname=ids.length>1?c.name:(PLATFORMS.find(p=>p.id===ids[0])||{}).name||label;
+      h+=`<div class="prow" data-game="${esc(g.id)}" data-plat="${esc(ids.join(','))}"><span class="pname">${esc(pname)}</span><span class="pill s-${e.cls}">${esc(e.label)}</span>${e.p.version&&e.p.status!=='none'?`<span class="pnote">Версия на площадке: <span class="ver">${esc(e.p.version)}</span></span>`:''}${e.p.note?`<span class="pnote">${esc(e.p.note)}</span>`:''}</div>`}
   }
   if(g)h+=`<div class="actions"><button class="btn edit-only" type="button" data-gedit="${esc(g.id)}">Изменить данные игры</button></div>`;
   $('detail').innerHTML=h;
@@ -252,12 +303,12 @@ function renderDetail(){
 function stats(){
   let live=0,old=0,review=0;
   for(const g of games)for(const p of PLATFORMS){const c=effective(g,p.id).cls;if(c==='live')live++;else if(c==='old')old++;else if(c==='review')review++}
-  $('stats').innerHTML=[[games.length,'игр'],[live,'актуальных публикаций'],[old,'нужно обновить'],[review,'на модерации']].map(([n,t])=>`<div class="stat"><b>${n}</b><span>${t}</span></div>`).join('');
+  $('stats').innerHTML=[[games.length,'игр'],[live,'актуальных публикаций'],[old,'нужно обновить'],[review,'на модерации'],[games.filter(g=>g.next).length,'в очереди выкладки']].map(([n,t])=>`<div class="stat"><b>${n}</b><span>${t}</span></div>`).join('');
 }
 document.addEventListener('click',e=>{
   if(e.target.closest('#panel'))return;
   const t=e.target.closest('.gtoggle');if(t){toggleGroup(t.dataset.group);return}
-  const c=e.target.closest('.mcard');if(c){cameFromList=true;location.hash='g-'+c.dataset.open;return}
+  const c=e.target.closest('.mcard,.qcard');if(c){cameFromList=true;location.hash='g-'+c.dataset.open;return}
   if(!TOKEN)return;
   const ge=e.target.closest('[data-gedit]');if(ge){openGame(ge.dataset.gedit);return}
   const cell=e.target.closest('.cell[data-plat],.prow[data-plat]');if(cell)openCell(cell.dataset.game,cell.dataset.plat);
@@ -265,9 +316,9 @@ document.addEventListener('click',e=>{
 $('q').addEventListener('input',e=>{query=e.target.value;render()});
 
 function applyData(data){
-  PLATFORMS=data.platforms||[]; GROUPS=data.groups||[]; games=data.games||[];
+  PLATFORMS=data.platforms||[]; GROUPS=data.groups||[]; games=data.games||[]; buildCols();
   if(!savedCollapse)collapsed=new Set(GROUPS.filter(g=>g.collapsed).map(g=>g.name));
-  $('headRow').innerHTML='<th class="gcol">Игра</th><th>Версия</th>'+PLATFORMS.map(p=>`<th>${esc(p.name)}</th>`).join('');
+  $('headRow').innerHTML='<th class="gcol">Игра</th><th>Версия</th>'+COLS.map(c=>`<th>${esc(c.name)}</th>`).join('');
   $('legend').innerHTML=[...Object.entries(STATUS).map(([id,n])=>`<span class="pill s-${id}">${esc(n)}</span>`),'<span class="pill s-old">Старая версия</span>'].join('');
   if(data.updated)$('upd').textContent='Обновлено: '+data.updated.split('-').reverse().join('.')+'.';
   render();
@@ -351,10 +402,12 @@ $('editBtn').onclick=()=>{
   }}
 };
 
-function openCell(gid,pid){
-  const g=games.find(x=>x.id===gid);const plat=PLATFORMS.find(p=>p.id===pid);if(!g||!plat)return;
-  const cur=(g.platforms||{})[pid]||{};const st=cur.status||'none';
-  openPanel(`<h2>${esc(g.name)} · ${esc(plat.name)}</h2>
+// pids — одна площадка или несколько через запятую (VK и OK с одинаковым статусом правятся вместе)
+function openCell(gid,pids){
+  const ids=String(pids).split(',');const g=games.find(x=>x.id===gid);const plats=ids.map(id=>PLATFORMS.find(p=>p.id===id));if(!g||plats.some(p=>!p))return;
+  const plat={name:plats.map(p=>p.name).join(' / ')};
+  const cur=(g.platforms||{})[ids[0]]||{};const st=cur.status||'none';
+  openPanel(`<h2>${esc(g.name)} · ${esc(plat.name)}</h2>${ids.length>1?'<p class="hint">Сохранится сразу для обеих площадок. Если статусы разные, они покажутся в колонке отдельно.</p>':''}
     <p class="hint">Текущая версия игры: <span class="ver">${esc(g.version||'не указана')}</span></p>
     <div class="row"><span class="lbl">Статус на площадке</span><div class="choices">${Object.entries(STATUS).map(([id,n])=>
       `<label><input type="radio" name="st" value="${id}" ${id===st?'checked':''}><span class="pill s-${id}">${esc(n)}</span></label>`).join('')}</div></div>
@@ -363,7 +416,7 @@ function openCell(gid,pid){
     <div class="actions"><button class="btn primary" type="button" id="save">Сохранить</button>
       ${g.version?`<button class="btn" type="button" id="liveNow">Выложена текущая (${esc(g.version)})</button>`:''}
       <button class="btn" type="button" data-close>Закрыть</button></div>`);
-  const go=async v=>{const ok=await mutate(d=>{const x=d.games.find(y=>y.id===gid);if(!x)return false;x.platforms=x.platforms||{};x.platforms[pid]=v;x.updatedAt=today()},`${g.name}: ${plat.name} — ${STATUS[v.status]}`);if(ok)closePanel()};
+  const go=async v=>{const ok=await mutate(d=>{const x=d.games.find(y=>y.id===gid);if(!x)return false;x.platforms=x.platforms||{};for(const id of ids)x.platforms[id]={...v};x.updatedAt=today()},`${g.name}: ${plat.name} — ${STATUS[v.status]}`);if(ok)closePanel()};
   $('save').onclick=()=>{const status=$('panel').querySelector('input[name=st]:checked')?.value||'none';let version=$('pv').value.trim();if(!version&&status!=='none')version=g.version||'';go({status,version,note:$('pn').value.trim()})};
   if($('liveNow'))$('liveNow').onclick=()=>go({status:'live',version:g.version,note:$('pn').value.trim()});
 }
@@ -384,6 +437,9 @@ function openGame(gid){
     <div class="row"><label for="gv">Текущая версия</label><input id="gv" value="${esc(g?.version||'')}" placeholder="1.0.0"></div>
     <div class="row"><label for="gf">Папка проекта</label><input id="gf" value="${esc(g?.folder||'')}"></div>
     <div class="row"><label for="gnote">Заметки</label><textarea id="gnote">${esc(g?.note||'')}</textarea></div>
+    <div class="row"><label for="gq">Очередь выкладки: номер</label><input id="gq" type="number" min="1" step="1" inputmode="numeric" value="${esc(g?.next?.order||'')}" placeholder="пусто — не в очереди">
+      <label class="check"><input type="checkbox" id="gqr" ${g?.next?.ready?'checked':''}> Подготовлена к выкладке (архив, обложки, описания готовы)</label>
+      <input id="gqn" value="${esc(g?.next?.note||'')}" placeholder="Куда и что выложить, например: Яндекс, VK/OK" aria-label="Заметка к очереди"></div>
     <div class="actions"><button class="btn primary" type="button" id="save">${g?'Сохранить':'Добавить'}</button><button class="btn" type="button" data-close>Закрыть</button>
       ${g?'<button class="btn danger" type="button" id="delAsk">Удалить игру</button>':''}</div><div id="delBox"></div>`);
   $('gn').focus();
@@ -400,9 +456,11 @@ function openGame(gid){
   $('save').onclick=async()=>{
     const name=$('gn').value.trim();if(!name){$('gn').focus();toast('Укажите название');return}
     const v={name,altName:$('ga').value.trim(),group:$('gg').value,version:$('gv').value.trim(),folder:$('gf').value.trim(),note:$('gnote').value.trim(),updatedAt:today()};
+    const qn=parseInt($('gq').value,10);
+    const next=qn>0?{order:qn,ready:$('gqr').checked,note:$('gqn').value.trim()}:null;
     const ok=await mutate(d=>{
-      if(g){const x=d.games.find(y=>y.id===g.id);if(!x)return false;Object.assign(x,v)}
-      else{let id=slug(name);if(d.games.some(y=>y.id===id))id+='-'+Date.now().toString(36);d.games.push({id,...v,platforms:{}})}
+      if(g){const x=d.games.find(y=>y.id===g.id);if(!x)return false;Object.assign(x,v);if(next)x.next=next;else delete x.next}
+      else{let id=slug(name);if(d.games.some(y=>y.id===id))id+='-'+Date.now().toString(36);d.games.push({id,...v,...(next?{next}:{}),platforms:{}})}
     },g?`${name}: данные игры`:`Новая игра: ${name}`);
     if(ok)closePanel();
   };
