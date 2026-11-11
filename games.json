@@ -178,9 +178,9 @@
       "altName": "Сальто-Бросок",
       "folder": "H:\\Html AI\\WrestleJumpRemaster",
       "group": "Ранее",
-      "version": "1.3.1",
-      "note": "1.3.1: ползунки громкости музыки и звуков, музыка по умолчанию 50%",
-      "updatedAt": "2026-11-10",
+      "version": "1.3.2",
+      "note": "1.3.2: спокойная музыка в меню (RandomMind «Medieval Exploration», CC0); громкость во всех сборках, музыка 50%. 1.3.1: ползунки громкости. Архивы release/flip-slam-1.3.2.zip и Store/yandex/flip-slam-yandex-1.3.2.zip не загружены",
+      "updatedAt": "2026-11-11",
       "platforms": {
         "ok": {
           "note": "сборка 1.3.1 готова; группа ok.ru/group/70000060943888",
