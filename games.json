@@ -211,14 +211,14 @@
       "altName": "",
       "folder": "H:\\Html AI\\ForestSurvival99",
       "group": "В разработке",
-      "version": "0.2.6",
-      "note": "0.2.6: вход по UUID комнаты без «чистки», меню на 640×360 без прокрутки (игра только горизонтальная). 0.2.5: плавное движение игроков, ники. Онлайн до 4 игроков. Турнир «Bring the Whole Squad», подача до 24.11 18:00 PT. Архив release/forest-survival-0.2.6.zip",
-      "updatedAt": "2026-11-10",
+      "version": "0.2.9",
+      "note": "0.2.9: HUD на телефоне не перекрывается, без подсказок про мышь на сенсорных экранах, проверка phone_check.mjs (4 альбомных размера). Только горизонтальная ориентация. Онлайн до 4 игроков. Турнир «Bring the Whole Squad», подача до 24.11 18:00 PT",
+      "updatedAt": "2026-11-11",
       "platforms": {
         "playgama": {
           "status": "draft",
-          "version": "0.2.5",
-          "note": "песочница playgama.ai/play/oyx3b23chnzvv5 (0.2.5), карточка cmwau5qvx067zkx0huo1si4eu DRAFT; 0.2.6 ждёт загрузки владельцем"
+          "version": "0.2.9",
+          "note": "песочница playgama.ai/play/oyx3b23chnzvv5 (0.2.9), карточка cmwau5qvx067zkx0huo1si4eu DRAFT; в модерацию не отправлено"
         }
       }
     },
