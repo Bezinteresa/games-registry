@@ -575,6 +575,11 @@
           "status": "draft",
           "version": "",
           "note": "id cmwb02t9e0f7ukx0h5p7xdvx5, в песочнице, челлендж «Bring the Whole Squad», лидерборд rating; архив 0.8.3 ждёт загрузки владельцем"
+        },
+        "site": {
+          "status": "live",
+          "version": "0.8.x",
+          "note": "владелец проверил на своём сайте 11.11 — работает; точную версию уточнить"
         }
       }
     }
