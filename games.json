@@ -79,12 +79,17 @@
       "group": "Ранее",
       "version": "",
       "note": "",
-      "updatedAt": "2026-11-09",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "playgama": {
           "note": "",
           "status": "draft",
           "version": ""
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "в каталоге своего сайта как «Strelki» (скриншот владельца 12.11); версия — уточнить"
         }
       },
       "icon": "icons/arrows-pixel-puzzle.png"
@@ -97,7 +102,7 @@
       "group": "Ранее",
       "version": "0.2.14",
       "note": "0.2.14: пошаговое обучение, автотест обучения, тесты и боты баланса. Ветки claude/yandex-build-c4ab48 (Яндекс 0.2.7) и claude/rustore-build-df901a (Android) не влиты в main. Архив release/bogatyr-survivors-0.2.14.zip",
-      "updatedAt": "2026-11-10",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "playgama": {
           "status": "draft",
@@ -117,7 +122,7 @@
         "site": {
           "status": "live",
           "version": "",
-          "note": "dom18games.ru, без Bridge; версия — уточнить"
+          "note": "dom18games.ru, без Bridge; версия — уточнить; в каталоге своего сайта как «BogatyrSurvivors» (скриншот владельца 12.11)"
         }
       }
     },
@@ -180,7 +185,7 @@
       "group": "Ранее",
       "version": "1.3.3",
       "note": "1.3.3: прокрутка магазина (полоса, свайп, мышь), кнопку rewarded не перекрывают карточки. 1.3.2: спокойная музыка в меню, громкость 50% во всех сборках. Архивы release/flip-slam-1.3.3.zip и Store/yandex/flip-slam-yandex-1.3.3.zip не загружены",
-      "updatedAt": "2026-11-11",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "ok": {
           "note": "сборка 1.3.1 готова; группа ok.ru/group/70000060943888",
@@ -201,6 +206,11 @@
           "note": "черновик создан 09.11.2026; архив 1.3.1 готов (Store/yandex)",
           "status": "draft",
           "version": ""
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "в каталоге своего сайта как «FlipSlam» (скриншот владельца 12.11); версия — уточнить"
         }
       },
       "icon": "icons/flip-slam.png"
@@ -213,12 +223,17 @@
       "group": "В разработке",
       "version": "0.2.9",
       "note": "0.2.9: HUD на телефоне не перекрывается, без подсказок про мышь на сенсорных экранах, проверка phone_check.mjs (4 альбомных размера). Только горизонтальная ориентация. Онлайн до 4 игроков. Турнир «Bring the Whole Squad», подача до 24.11 18:00 PT",
-      "updatedAt": "2026-11-11",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "playgama": {
           "status": "draft",
           "version": "0.2.9",
           "note": "песочница playgama.ai/play/oyx3b23chnzvv5 (0.2.9), карточка cmwau5qvx067zkx0huo1si4eu DRAFT; в модерацию не отправлено"
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "в каталоге своего сайта как «ForesteSurv» (скриншот владельца 12.11); версия — уточнить"
         }
       }
     },
@@ -230,7 +245,7 @@
       "group": "Ранее",
       "version": "1.2.0",
       "note": "",
-      "updatedAt": "2026-11-09",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "playgama": {
           "note": "песочница 1.1.1, архив 1.2.0 не загружен",
@@ -251,6 +266,11 @@
           "note": "",
           "status": "draft",
           "version": ""
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "в каталоге своего сайта как «Ants» (скриншот владельца 12.11); версия — уточнить"
         }
       },
       "icon": "icons/muravi-nosilschiki.png"
@@ -263,12 +283,17 @@
       "group": "Ранее",
       "version": "1.0.6",
       "note": "",
-      "updatedAt": "2026-11-09",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "yandex": {
           "note": "архив 1.0.6 собран",
           "status": "draft",
           "version": ""
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "в каталоге своего сайта как «pdd» (скриншот владельца 12.11); версия — уточнить"
         }
       },
       "icon": "icons/pdd-online.png"
@@ -299,7 +324,7 @@
       "group": "Ранее",
       "version": "1.0.4",
       "note": "1.0.4: название на загрузке и в меню (3.5.1), «ещё +N ★ за рекламу» на экране победы; включает исправления раздела 16 из 1.0.2–1.0.3",
-      "updatedAt": "2026-11-09",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "playgama": {
           "status": "draft",
@@ -315,6 +340,11 @@
           "note": "черновик в консоли есть, карточка готова в store/yandex",
           "status": "draft",
           "version": ""
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "в каталоге своего сайта как «Madgong» (скриншот владельца 12.11); версия — уточнить"
         }
       },
       "icon": "icons/pixel-mahjong.png"
@@ -349,7 +379,7 @@
       "group": "Ранее",
       "version": "",
       "note": "",
-      "updatedAt": "2026-11-10",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "playgama": {
           "note": "одобрена 04.11.2026; веб, коммит c4af46a (оба акта)",
@@ -365,6 +395,11 @@
           "note": "",
           "status": "draft",
           "version": ""
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "в каталоге своего сайта как «match3rpg» (скриншот владельца 12.11); версия — уточнить"
         }
       },
       "icon": "icons/pobeda-nad-chudovischem.png"
@@ -427,7 +462,7 @@
       "group": "Ранее",
       "version": "0.4.4",
       "note": "0.4.4: обучение доделано (rewarded, магазин), автотест обучения 390×844 и 1280×720 без звука. Архив release/ufo-farm-defense-0.4.4.zip",
-      "updatedAt": "2026-11-10",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "playgama": {
           "status": "draft",
@@ -435,7 +470,7 @@
           "note": "id cmwawdtge09bvkx0hb44i0eyw; архив 0.4.4 ждёт загрузки владельцем"
         },
         "site": {
-          "note": "мобильные браузеры держат старый index.html в кэше",
+          "note": "мобильные браузеры держат старый index.html в кэше; в каталоге своего сайта как «CowNLO» (скриншот владельца 12.11)",
           "status": "live",
           "version": "0.3.2"
         }
@@ -450,7 +485,7 @@
       "group": "Ранее",
       "version": "",
       "note": "",
-      "updatedAt": "2026-11-09",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "playgama": {
           "note": "",
@@ -461,6 +496,11 @@
           "note": "",
           "status": "draft",
           "version": ""
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "в каталоге своего сайта как «WallOfFire» (скриншот владельца 12.11); версия — уточнить"
         }
       },
       "icon": "icons/stena-ognya.png"
@@ -473,7 +513,7 @@
       "group": "Ранее",
       "version": "1.17.0",
       "note": "1.17.0: новогодняя ветка сюжета с аксессуарами бойцов; включает 1.16.x (глава 2, «Продолжить за рекламу»). Архив release/stick-fight-arena-1.17.0.zip",
-      "updatedAt": "2026-11-10",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "playgama": {
           "note": "playgama.com/game/stick-fight-arena; 1.17.0 ждёт загрузки владельцем",
@@ -489,6 +529,11 @@
           "note": "код готов, нужна таблица wins в консоли",
           "status": "none",
           "version": ""
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "в каталоге своего сайта как «StickCombat» (скриншот владельца 12.11); версия — уточнить"
         }
       },
       "icon": "icons/stick-fight-arena.png"
@@ -512,12 +557,17 @@
       "group": "Неделя 2",
       "version": "0.11.0",
       "note": "0.8–0.11: наборы коллекций, магазин (набор новичка, монеты, VIP, без рекламы), новогоднее событие 15.12–14.01, карта города. Архив release/star-show-0.11.0.zip",
-      "updatedAt": "2026-11-10",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "playgama": {
           "status": "draft",
           "version": "",
           "note": "приложение cmwal45th1ml9og0ha4jnl9y5, карточка и 6 товаров заведены; архив, обложки и скриншоты загружает владелец, потом QA Tool"
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "в каталоге своего сайта как «StarShow» (скриншот владельца 12.11); версия — уточнить"
         }
       },
       "icon": "icons/zvezdnyy-pokaz.png"
@@ -530,7 +580,7 @@
       "group": "Неделя 2",
       "version": "0.7.0",
       "note": "0.7.0: история-комикс, анимация врагов, первые 16 картинок в игре. Ждут генерации 14 кадров комикса и 2 портрета (art/ART_TODO.md); архив release/endless-bastion-0.7.0.zip (7 МБ)",
-      "updatedAt": "2026-11-09",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "playgama": {
           "status": "none",
@@ -541,6 +591,11 @@
           "status": "none",
           "version": "",
           "note": ""
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "в каталоге своего сайта как «EndlessBastion» (скриншот владельца 12.11); версия — уточнить"
         }
       }
     },
@@ -552,12 +607,17 @@
       "group": "Неделя 2",
       "version": "0.4.0",
       "note": "0.4.0: вся графика, правила 11.11 (спокойная музыка меню, прокрутка свайпом). 0.3.2: полноценное обучение. 0.3.x: живой участок, заказы, уровни, ярмарка, лидерборд. Архив release/magic-garden-0.4.0.zip (5,8 МБ)",
-      "updatedAt": "2026-11-11",
+      "updatedAt": "2026-11-12",
       "platforms": {
         "playgama": {
           "status": "draft",
           "version": "",
           "note": "id cmway1rng0bw3ks0hk7bwo397, лидерборд best_crop; архив 0.4.0 ждёт загрузки владельцем"
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": "в каталоге своего сайта как «MagicGarden» (скриншот владельца 12.11); версия — уточнить"
         }
       }
     },
@@ -579,7 +639,7 @@
         "site": {
           "status": "live",
           "version": "0.8.x",
-          "note": "владелец проверил на своём сайте 11.11 — работает; точную версию уточнить"
+          "note": "владелец проверил на своём сайте 11.11 — работает; точную версию уточнить; в каталоге своего сайта как «FreedomSquad» (скриншот владельца 12.11)"
         }
       }
     }
