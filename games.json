@@ -183,8 +183,8 @@
       "altName": "Сальто-Бросок",
       "folder": "H:\\Html AI\\WrestleJumpRemaster",
       "group": "Ранее",
-      "version": "1.3.3",
-      "note": "1.3.3: прокрутка магазина (полоса, свайп, мышь), кнопку rewarded не перекрывают карточки. 1.3.2: спокойная музыка в меню, громкость 50% во всех сборках. Архивы release/flip-slam-1.3.3.zip и Store/yandex/flip-slam-yandex-1.3.3.zip не загружены",
+      "version": "1.3.4",
+      "note": "1.3.4: Bridge 2.4.2 (под сертификацию), исправлено восстановление покупок (id из productId). 1.3.3: прокрутка магазина (полоса, свайп, мышь), кнопку rewarded не перекрывают карточки. 1.3.2: спокойная музыка в меню, громкость 50% во всех сборках. Архивы release/flip-slam-1.3.3.zip и Store/yandex/flip-slam-yandex-1.3.3.zip не загружены",
       "updatedAt": "2026-11-12",
       "platforms": {
         "ok": {
@@ -193,7 +193,7 @@
           "version": ""
         },
         "playgama": {
-          "note": "песочница 1.3.0; архив 1.3.1 (release/flip-slam-1.3.1.zip) не загружен; QA Tool не пройден",
+          "note": "архив 1.3.4 готовится к загрузке (archiveId cmwdrjjps02mblz0ht6fgggfa); песочница 1.3.0; архив 1.3.1 (release/flip-slam-1.3.1.zip) не загружен; QA Tool не пройден",
           "status": "draft",
           "version": "1.3.0"
         },
