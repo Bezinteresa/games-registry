@@ -304,14 +304,14 @@
       "altName": "Pixel Eaters",
       "folder": "H:\\Html AI\\Пожиратель пикселей",
       "group": "Ранее",
-      "version": "1.5.0",
-      "note": "1.5.0: лидерборд levels, музыка, 206 картинок в галерее, 4 скина, покупка no_ads ($1.99).",
+      "version": "1.5.1",
+      "note": "1.5.1: кнопка «На весь экран» с подсказкой, Bridge 2.4.2. 1.5.0: лидерборд levels, музыка, 206 картинок в галерее, 4 скина, покупка no_ads ($1.99).",
       "updatedAt": "2026-11-13",
       "platforms": {
         "playgama": {
           "status": "draft",
           "version": "1.5.0",
-          "note": "песочница опубликована https://playgama.ai/play/3e4nwt7xdqoi7r, id cmvm2w4j60p7kh90hibjehskh; сертификация не пройдена (QA Tool — владелец)"
+          "note": "песочница 1.5.0 https://playgama.ai/play/3e4nwt7xdqoi7r, id cmvm2w4j60p7kh90hibjehskh; 1.5.1 загружена, PASSED, ждёт публикации в песочнице; сертификация не пройдена: https://developer.playgama.com/qa-tool/cmwf6aeam03fwlk0hxw3fhcz4?mode=certification"
         },
         "yandex": {
           "status": "none",
@@ -321,12 +321,12 @@
         "vk": {
           "status": "none",
           "version": "",
-          "note": "архив release/pixel-eaters-1.5.0-vk.zip (VK и OK одним архивом, без покупок)"
+          "note": "архив release/pixel-eaters-1.5.1-vk.zip (VK и OK одним архивом, без покупок)"
         },
         "ok": {
           "status": "none",
           "version": "",
-          "note": "архив release/pixel-eaters-1.5.0-vk.zip (VK и OK одним архивом, без покупок)"
+          "note": "архив release/pixel-eaters-1.5.1-vk.zip (VK и OK одним архивом, без покупок)"
         }
       },
       "icon": "icons/pixel-eaters.png"
