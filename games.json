@@ -300,18 +300,33 @@
     },
     {
       "id": "pixel-eaters",
-      "name": "Pixel Eaters",
-      "altName": "Пожиратель пикселей",
+      "name": "Пожиратель пикселей",
+      "altName": "Pixel Eaters",
       "folder": "H:\\Html AI\\Пожиратель пикселей",
       "group": "Ранее",
-      "version": "",
-      "note": "",
-      "updatedAt": "2026-11-09",
+      "version": "1.5.0",
+      "note": "1.5.0: лидерборд levels, музыка, 206 картинок в галерее, 4 скина, покупка no_ads ($1.99).",
+      "updatedAt": "2026-11-13",
       "platforms": {
         "playgama": {
-          "note": "автопроверка PASSED",
           "status": "draft",
-          "version": ""
+          "version": "1.5.0",
+          "note": "песочница опубликована https://playgama.ai/play/3e4nwt7xdqoi7r, id cmvm2w4j60p7kh90hibjehskh; сертификация не пройдена (QA Tool — владелец)"
+        },
+        "yandex": {
+          "status": "none",
+          "version": "",
+          "note": "материалы карточки в Store/yandex/ (собраны на 1.2.0, обновить под 1.5.0)"
+        },
+        "vk": {
+          "status": "none",
+          "version": "",
+          "note": "архив release/pixel-eaters-1.5.0-vk.zip (VK и OK одним архивом, без покупок)"
+        },
+        "ok": {
+          "status": "none",
+          "version": "",
+          "note": "архив release/pixel-eaters-1.5.0-vk.zip (VK и OK одним архивом, без покупок)"
         }
       },
       "icon": "icons/pixel-eaters.png"
@@ -426,11 +441,11 @@
       "id": "sortirovka-cvetov",
       "name": "Сортировка цветов: Комнаты",
       "altName": "Color Sorting: Rooms",
-      "folder": "",
+      "folder": "H:\\Html AI\\2 ColorRooms Sorting",
       "group": "Ранее",
-      "version": "",
-      "note": "папку проекта уточнить",
-      "updatedAt": "2026-11-09",
+      "version": "0.4.0",
+      "note": "HTML5-версия (источник — Unity-проект H:\\Unity\\MinzurkiNout), заменит Unity-архив в карточке Playgama cmrjjgqdp007kla0haapw70a1 (ответ владельца 12.11). 0.4.0: пауза, реклама, покупки no_ads и наборы бонусов, лидерборд levels; 0.3.0: облачное сохранение, перенос прогресса Unity, задания, комнаты, магазин обликов. Проверено локально, QA Tool не пройден, товары в консоли не заведены. На площадках сейчас Unity-версии.",
+      "updatedAt": "2026-11-13",
       "platforms": {
         "playgama": {
           "note": "Published 1/2, статус PROCESSING",
@@ -507,23 +522,23 @@
     },
     {
       "id": "stick-fight-arena",
-      "name": "Стик Файт Арена",
-      "altName": "Stick Fight Arena",
+      "name": "Арена мастеров: Стикмен",
+      "altName": "Arena of Masters: Stickman (бывш. Стик Файт Арена / Stick Fight Arena)",
       "folder": "H:\\Html AI\\СтикКомбат",
       "group": "Ранее",
-      "version": "1.17.4",
-      "note": "1.17.4: новогодняя ветка с картинками, аксессуары, геймпад, честнее толпа врагов; глава 2, «Продолжить за рекламу», Bridge 2.4.2, версия в меню. Аудит 16.7: нарушений нет.",
+      "version": "1.17.6",
+      "note": "Переименована 13.11 после отказа RuStore (п. 4.1, сходство со Stick Fight: The Game); пакет Android com.stickfightarena.game не меняется. 1.17.6: короткий первый бой, обучение 7 шагов (архив не загружен). 1.17.5: новое название, обложки. 1.17.4: новогодняя ветка, аксессуары, геймпад, глава 2, «Продолжить за рекламу», Bridge 2.4.2.",
       "updatedAt": "2026-11-13",
       "platforms": {
         "playgama": {
           "status": "live",
-          "version": "1.15.1",
-          "note": "1.17.4 загружена (заменила 1.17.2/1.17.3), автопроверка PASSED, Bridge 2.4.2, ждёт публикации владельцем"
+          "version": "1.17.4",
+          "note": "1.17.5 (новое название) загружена, автопроверка PASSED, название в анкете изменено, ждёт публикации владельцем; 1.17.6 не загружена"
         },
         "rustore": {
           "status": "rejected",
           "version": "1.13.2",
-          "note": "отклонена (со слов владельца 13.11): вероятно, авторские права — похоже на Stick Fight: The Game (Landfall); возможно, нужно переименование. загружена 04.11.2026, публикация автоматическая"
+          "note": "отклонена по п. 4.1 (старое название). Подписанный релиз 1.17.5 с новым названием готов к повторной отправке: release/stick-fight-arena-1.17.5.apk (код 11705) — загружает владелец"
         },
         "yandex": {
           "note": "код готов, нужна таблица wins в консоли",
