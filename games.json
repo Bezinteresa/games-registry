@@ -465,7 +465,7 @@
       "group": "Ранее",
       "version": "0.4.0",
       "note": "HTML5-версия (источник — Unity-проект H:\\Unity\\MinzurkiNout), заменит Unity-архив в карточке Playgama cmrjjgqdp007kla0haapw70a1 (ответ владельца 12.11). 0.4.0: пауза, реклама, покупки no_ads и наборы бонусов, лидерборд levels; 0.3.0: облачное сохранение, перенос прогресса Unity, задания, комнаты, магазин обликов. Проверено локально, QA Tool не пройден, товары в консоли не заведены. На площадках сейчас Unity-версии.",
-      "updatedAt": "2026-11-13",
+      "updatedAt": "2026-11-22",
       "platforms": {
         "playgama": {
           "note": "Published 1/2, статус PROCESSING",
@@ -486,6 +486,11 @@
           "note": "",
           "status": "live",
           "version": ""
+        },
+        "site": {
+          "status": "live",
+          "version": "0.4.0",
+          "note": ""
         }
       }
     },
