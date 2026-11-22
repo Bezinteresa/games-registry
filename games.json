@@ -682,7 +682,13 @@
       "folder": "H:\\Html AI\\2 неделя\\2 Monster Roll (Бросок монстра)",
       "note": "",
       "updatedAt": "2026-11-22",
-      "platforms": {}
+      "platforms": {
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": ""
+        }
+      }
     }
   ]
 }
