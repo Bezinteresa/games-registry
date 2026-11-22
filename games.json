@@ -61,12 +61,17 @@
       "group": "Ранее",
       "version": "",
       "note": "нарушения 16.7: звук, таймеры рекламы, эмодзи",
-      "updatedAt": "2026-11-09",
+      "updatedAt": "2026-11-22",
       "platforms": {
         "playgama": {
           "note": "",
           "status": "draft",
           "version": ""
+        },
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": ""
         }
       },
       "icon": "icons/apocalypse-merge.png"
