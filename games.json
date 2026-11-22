@@ -271,6 +271,11 @@
           "status": "live",
           "version": "",
           "note": "в каталоге своего сайта как «Ants» (скриншот владельца 12.11); версия — уточнить"
+        },
+        "ok": {
+          "status": "live",
+          "version": "1.2.0",
+          "note": ""
         }
       },
       "icon": "icons/muravi-nosilschiki.png"
