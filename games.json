@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-13",
+  "updated": "2026-11-22",
   "platforms": [
     {
       "id": "playgama",
@@ -245,7 +245,7 @@
       "group": "Ранее",
       "version": "1.2.0",
       "note": "",
-      "updatedAt": "2026-11-12",
+      "updatedAt": "2026-11-22",
       "platforms": {
         "playgama": {
           "note": "песочница 1.1.1, архив 1.2.0 не загружен",
@@ -258,9 +258,9 @@
           "version": ""
         },
         "vk": {
-          "note": "в кабинете «Вкл», статус модерации уточнить",
-          "status": "draft",
-          "version": ""
+          "status": "live",
+          "version": "1.2.0",
+          "note": "в кабинете «Вкл», статус модерации уточнить"
         },
         "yandex": {
           "note": "",
