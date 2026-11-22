@@ -157,7 +157,7 @@
       "group": "Ранее",
       "version": "1.1.0",
       "note": "Веб-версия на Vue + Three.js",
-      "updatedAt": "2026-11-13",
+      "updatedAt": "2026-11-22",
       "platforms": {
         "ok": {
           "status": "rejected",
@@ -173,6 +173,11 @@
           "status": "rejected",
           "version": "1.1.0",
           "note": "VK отклонил, владелец удалил приложение (13.11). app_id 51871512, загрузка 1793802111, Mobile+Web; без покупок (делается сервер голосов)"
+        },
+        "rustore": {
+          "status": "live",
+          "version": "1.1.0",
+          "note": ""
         }
       },
       "icon": "icons/christmas-balls-web.png"
