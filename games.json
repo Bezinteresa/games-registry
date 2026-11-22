@@ -591,8 +591,14 @@
       "group": "В разработке",
       "version": "",
       "note": "Bridge не подключён",
-      "updatedAt": "2026-11-09",
-      "platforms": {}
+      "updatedAt": "2026-11-22",
+      "platforms": {
+        "site": {
+          "status": "live",
+          "version": "",
+          "note": ""
+        }
+      }
     },
     {
       "id": "zvezdnyy-pokaz",
