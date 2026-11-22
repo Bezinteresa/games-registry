@@ -253,9 +253,9 @@
           "version": "1.1.1"
         },
         "rustore": {
-          "note": "не опубликовано",
-          "status": "draft",
-          "version": ""
+          "status": "live",
+          "version": "1.2.0",
+          "note": "не опубликовано"
         },
         "vk": {
           "status": "live",
